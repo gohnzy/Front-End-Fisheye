@@ -1,0 +1,98 @@
+@import url("photographer.css");
+
+
+$mainColor : #D3573C;
+$secondColor: #901c1c;
+
+body {
+    font-family: "DM Sans", sans-serif;
+    margin: 0;
+}
+
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+}
+
+h1 {
+    color: $secondColor;
+    margin-right: 100px;
+}
+
+.logo {
+    height: 50px;
+    margin-left: 100px;
+}
+
+.photographer_section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 70px;
+    margin-top: 100px;
+
+    & article {
+
+        justify-self: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+
+        & div * {
+            margin: 0;
+        }
+
+        & .divClick {
+
+
+
+            & h2 {
+
+                color: $mainColor;
+                font-size: 36px;
+                margin-bottom: 0;
+                margin-top: 10px;
+    
+            }
+            & img {
+                height: 200px;
+                width: 200px;
+                border-radius: 50%;
+                
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        
+
+        & h3 {
+            color: $mainColor;
+            font-size: 17px;
+        }
+
+        & span {
+
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        & i {
+            font-size: 12px;
+            font-weight: 400;
+            color: #757575;
+            font-style: normal;
+        }
+    }
+
+    
+
+    
+}
