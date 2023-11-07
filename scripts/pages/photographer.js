@@ -13,7 +13,7 @@ async function getPhotographersAndMedias() {
 }
 
 // Affiche les photographes
-function displayData(photographer, medias) {
+function displayData(photographer) {
     const sidePages = document.querySelector(".mainSide");
     const photographPage = photographerPage(photographer);
     const photographPageDOM = photographPage.photographerPageDOM();
@@ -35,9 +35,36 @@ async function init() {
     }
 
     const medias = data.media.filter(p => String(p.photographerId) === String(photographer.id)); 
-    console.log(medias)
-
+   console.log(medias);
     await displayData(photographer);
 }
 
 init();
+function photographerPage(data) {
+
+    const { name, id, city, country, tagline, price, portrait} = data;
+    const picture = `/assets/photos/photographers/${portrait}`;
+
+    function photographerPageDOM(){
+        const photographerHeader = document.createElement("div");
+        photographerHeader.classList.add("photographer-header")
+        const btnModal = document.createElement("div")
+        btnModal.innerHTML = `<button class="contact_button" onclick="displayModal()">Contactez-moi</button>`
+        const photographerInfos = document.createElement("div")
+        photographerHeader.classList.add("photographer-infos")
+        photographerInfos.innerHTML =
+        `<h1>${name}</h1><br>
+        <h2>${city},${country}</h2><br>
+        <h3>${tagline}</h3>`
+        const photographerPortrait = document.createElement("img")
+        photographerPortrait.setAttribute("src", picture)
+        photographerHeader.appendChild(photographerInfos)
+        photographerHeader.appendChild(btnModal)
+        photographerHeader.appendChild(photographerPortrait)
+
+        return (photographerHeader);
+    }
+    
+    return {photographerPageDOM}
+
+}
