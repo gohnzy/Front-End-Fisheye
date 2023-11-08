@@ -20,6 +20,13 @@ function displayData(photographer) {
     sidePages.appendChild(photographPageDOM);
 }
 
+function displayMedia(medias) {
+    medias.forEach(m => {
+       console.log(m); // create medias elements
+    });
+
+}
+
 async function init() {
     const id = new URLSearchParams(window.location.search).get('id');
     const data = await getPhotographersAndMedias();
@@ -35,23 +42,27 @@ async function init() {
     }
 
     const medias = data.media.filter(p => String(p.photographerId) === String(photographer.id)); 
-   console.log(medias);
-    await displayData(photographer);
+    displayData(photographer);
+    displayMedia(medias);
+    contactForm(photographer)
+    submitForm()
 }
 
 init();
 function photographerPage(data) {
 
-    const { name, id, city, country, tagline, price, portrait} = data;
+    const { name, city, country, tagline, portrait} = data;
     const picture = `/assets/photos/photographers/${portrait}`;
 
     function photographerPageDOM(){
         const photographerHeader = document.createElement("div");
         photographerHeader.classList.add("photographer-header")
-        const btnModal = document.createElement("div")
-        btnModal.innerHTML = `<button class="contact_button" onclick="displayModal()">Contactez-moi</button>`
+        const btnModal = document.createElement("button")
+        btnModal.classList.add("openModal")
+        btnModal.setAttribute("onclick", "displayModal()")
+        btnModal.innerText="Contactez-moi"
         const photographerInfos = document.createElement("div")
-        photographerHeader.classList.add("photographer-infos")
+        photographerInfos.classList.add("photographer-infos")
         photographerInfos.innerHTML =
         `<h1>${name}</h1><br>
         <h2>${city},${country}</h2><br>
@@ -68,3 +79,4 @@ function photographerPage(data) {
     return {photographerPageDOM}
 
 }
+

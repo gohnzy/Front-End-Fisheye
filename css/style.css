@@ -1,7 +1,17 @@
 @import url("photographer.css");
 body {
   font-family: "DM Sans", sans-serif;
-  margin: 0;
+  margin: auto;
+  max-width: 1440px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1px 1px;
+}
+
+main {
+  padding-bottom: 50px;
 }
 
 header {
@@ -10,6 +20,8 @@ header {
   justify-content: space-between;
   align-items: center;
   height: 90px;
+  max-width: 1440px;
+  width: 100%;
 }
 
 h1 {
@@ -26,7 +38,7 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 70px;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 .photographer_section article {
   justify-self: center;
@@ -53,15 +65,23 @@ h1 {
 .photographer_section article .divClick:hover {
   cursor: pointer;
 }
-.photographer_section article h3 {
+.photographer_section article .divClick:hover img {
+  transition: 0.3s;
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.1);
+  transform: rotate3d(1, 1, 0, 15deg) scale(1.05);
+}
+.photographer_section article .divClick:not(:hover) img {
+  transition: 0.6s;
+}
+.photographer_section h3 {
   color: #D3573C;
   font-size: 17px;
 }
-.photographer_section article span {
+.photographer_section span {
   font-size: 13px;
   font-weight: 400;
 }
-.photographer_section article i {
+.photographer_section i {
   font-size: 12px;
   font-weight: 400;
   color: #757575;

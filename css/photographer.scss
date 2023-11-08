@@ -1,3 +1,5 @@
+@import url("style.css");
+
 $mainColor : #D3573C;
 $secondColor: #901c1c;
 
@@ -13,12 +15,6 @@ $secondColor: #901c1c;
     }
 }
 
-
-
-#contact_modal {
-    display: none;
-}
-
 .photographer-header {
     background-color: #FAFAFA;
     max-width: 1240px;
@@ -30,13 +26,14 @@ $secondColor: #901c1c;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 
     & .photographer-infos {
 
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-
+        max-width: 30%;
         align-items: start;
         text-align: start;
 
@@ -47,8 +44,7 @@ $secondColor: #901c1c;
         & h1 {
             color: $mainColor;
             font-size: 64px;
-            font-weight: 400;
-            
+            font-weight: 400;            
         }
     
         & h2 {
@@ -64,51 +60,99 @@ $secondColor: #901c1c;
         }
     }
 
-    & img  {
-        border-radius: 50%;
+    & .openModal{
+    
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+        padding: 11px;
+        width: 170px;
+
+        height: 70px;
+        border: none;
+        background-color: #901C1C;
+        border-radius: 5px;
+        cursor: pointer;
     }
 
-    
+    & img  {
+        border-radius: 50%;
+        
+    }
 }
 
-.contact_button {
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-    padding: 11px;
-    width: 170px;
-    height: 70px;
-    border: none;
-    background-color: #901C1C;
-    border-radius: 5px;
-    cursor: pointer;
+
+
+#contact_modal {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color:  rgba($color: #c4c4c4, $alpha: 0.3);
 }
+
 
 .modal {
     border-radius: 5px;
     background-color: #DB8876;
     width: 50%;
+    max-width: 670px;
+    position: relative;
+    top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     padding: 35px;
     margin: auto;
+
+    & .submit {
+    
+        font-size: 18px;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+        padding: 11px;
+        width: 170px;
+        height: 70px;
+        border: none;
+        background-color: #901C1C;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 }
 
 .modal header {
     justify-content: space-between;
     width: 100%;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+
+    & h2 {
+        font-size: 48px;
+        font-weight: normal;
+        text-align: left;
+        margin: 0 0 5px 0;
+    }
 }
 
-.modal header img {
+.modal img {
     cursor: pointer;
-}
+    position: absolute;
+    right: 30px;
+    top: 60px;
+    &:hover {
+        transform: rotate(90deg);
+        transition: ease-in-out 0.4s;
+    }
 
-.modal header h2 {
-    font-size: 64px;
-    font-weight: normal;
-    text-align: center;
+    &:not(:hover){
+        transition: ease-in-out .6s;
+    }
 }
 
 form {
@@ -116,19 +160,21 @@ form {
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
+    
 }
 
 form label {
     color: #312E2E;
-    font-size: 36px;
+    font-size: 28px;
+    margin-bottom: 5px;
 }
 
-form div {
+.formDiv  {
     display: flex;
     flex-direction: column;
     width: 100%;
     align-items: self-start;
-    margin-bottom: 26px;
+
 }
 
 form input {
@@ -136,4 +182,20 @@ form input {
     height: 68px;
     border: none;
     border-radius: 5px;
+    margin-bottom: 30px;
+    font-size: 28px;
 }
+
+.formDiv[data-error]::after {
+    content: attr(data-error);
+    font-size: 0.4em;
+    color: #e54858;
+    display: block;
+    position: relative;
+    margin-top: 7px;
+    margin-bottom: -2px;
+    text-align: right;
+    line-height: 0.3;
+    opacity: 0;
+    transition: 0.3s;
+  }
