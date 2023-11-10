@@ -61,17 +61,20 @@ h1 {
   height: 200px;
   width: 200px;
   border-radius: 50%;
+  border: 3px solid transparent;
 }
 .photographer_section article .divClick:hover {
   cursor: pointer;
 }
 .photographer_section article .divClick:hover img {
-  transition: 0.3s;
-  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.5s;
+  border: 3px solid #D3573C;
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.05);
   transform: rotate3d(1, 1, 0, 15deg) scale(1.05);
 }
 .photographer_section article .divClick:not(:hover) img {
-  transition: 0.6s;
+  transition: 1s;
+  border: 3px solid transparent;
 }
 .photographer_section h3 {
   color: #D3573C;

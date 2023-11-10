@@ -6,7 +6,7 @@
   cursor: pointer;
 }
 
-.photographer-header {
+.photographerHeader {
   background-color: #FAFAFA;
   max-width: 1240px;
   height: 300px;
@@ -19,33 +19,33 @@
   align-items: center;
   position: relative;
 }
-.photographer-header .photographer-infos {
+.photographerHeader .photographer-infos {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  max-width: 30%;
+  width: 40%;
   align-items: start;
   text-align: start;
 }
-.photographer-header .photographer-infos * {
+.photographerHeader .photographer-infos * {
   margin: 0;
 }
-.photographer-header .photographer-infos h1 {
+.photographerHeader .photographer-infos h1 {
   color: #D3573C;
   font-size: 64px;
   font-weight: 400;
 }
-.photographer-header .photographer-infos h2 {
+.photographerHeader .photographer-infos h2 {
   color: #901c1c;
   font-size: 24px;
   font-weight: 400;
 }
-.photographer-header .photographer-infos h3 {
+.photographerHeader .photographer-infos h3 {
   color: #525252;
   font-size: 18px;
   font-weight: 400;
 }
-.photographer-header .openModal {
+.photographerHeader .openModal {
   font-size: 20px;
   font-weight: 700;
   color: white;
@@ -57,15 +57,73 @@
   border-radius: 5px;
   cursor: pointer;
 }
-.photographer-header img {
+.photographerHeader .portraitDiv {
+  width: 40%;
+  display: flex;
+  justify-content: end;
+}
+.photographerHeader .portraitDiv img {
   border-radius: 50%;
+}
+
+.sortMenu {
+  max-width: 1240px;
+  position: relative;
+  left: 0;
+  margin: 30px 100px 15px 100px;
+}
+
+.photographerContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1240px;
+  gap: 45px 30px;
+  margin: 30px 100px;
+  position: relative;
+}
+.photographerContent img, .photographerContent video {
+  width: 350px;
+  height: 300px;
+  border-radius: 5px;
+}
+.photographerContent .mediaDescription {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toolTip {
+  background-color: #DB8876;
+  position: fixed;
+  border-radius: 5px 5px 0 0;
+  bottom: 0;
+  right: 3.5%;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+  padding: 15px 30px;
+  font-size: 24px;
+  font-weight: 500;
+}
+.toolTip p {
+  margin: 0;
 }
 
 #contact_modal {
   display: none;
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: 100%;
+  padding: 150px 0;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -75,31 +133,18 @@
 .modal {
   border-radius: 5px;
   background-color: #DB8876;
-  width: 50%;
+  width: -moz-fit-content;
+  width: fit-content;
   max-width: 670px;
   position: relative;
-  top: 50px;
+  top: 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 35px;
+  padding: 35px 50px;
   margin: auto;
 }
-.modal .submit {
-  font-size: 18px;
-  font-weight: 700;
-  color: white;
-  margin: 0;
-  padding: 11px;
-  width: 170px;
-  height: 70px;
-  border: none;
-  background-color: #901C1C;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 .modal header {
   justify-content: space-between;
   width: 100%;
@@ -112,7 +157,19 @@
   text-align: left;
   margin: 0 0 5px 0;
 }
-
+.modal .submit {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  margin: 35px 0 0 0;
+  padding: 11px;
+  width: 170px;
+  height: 70px;
+  border: none;
+  background-color: #901C1C;
+  border-radius: 5px;
+  cursor: pointer;
+}
 .modal img {
   cursor: pointer;
   position: absolute;
@@ -126,46 +183,81 @@
 .modal img:not(:hover) {
   transition: ease-in-out 0.6s;
 }
-
-form {
+.modal .form {
   display: flex;
   width: 100%;
   flex-direction: column;
   align-items: flex-start;
 }
-
-form label {
+.modal .sent {
+  border-radius: 5px;
+  background-color: #DB8876;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 670px;
+  height: 35%;
+  top: 0px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 100px 50px;
+  margin: auto;
+  font-size: 40px;
+  color: white;
+  text-align: center;
+}
+.modal form label, .modal form p {
   color: #312E2E;
   font-size: 28px;
   margin-bottom: 5px;
 }
-
-.formDiv {
+.modal form p {
+  margin-top: 0;
+}
+.modal .formDiv {
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: self-start;
 }
-
-form input {
+.modal form input {
   width: 100%;
-  height: 68px;
+  height: 48px;
   border: none;
   border-radius: 5px;
   margin-bottom: 30px;
   font-size: 28px;
 }
-
-.formDiv[data-error]::after {
+.modal .formMessage input {
+  height: 96px;
+}
+.modal .formData {
+  width: 100%;
+  max-width: 500px;
+}
+.modal .formData[data-error]:after {
   content: attr(data-error);
-  font-size: 0.4em;
-  color: #e54858;
+  font-size: 0.7em;
+  color: #000000;
   display: block;
-  position: relative;
-  margin-top: 7px;
+  margin-top: -22px;
   margin-bottom: -2px;
   text-align: right;
-  line-height: 0.3;
+  text-decoration: underline;
   opacity: 0;
   transition: 0.3s;
+}
+.modal .formMessage[data-error]:after {
+  margin-top: 0;
+}
+.modal .formData[data-error-visible=true]::after {
+  opacity: 1;
+  display: block;
+}
+.modal textarea {
+  resize: none;
+  border: 0;
+  border-radius: 5px;
+  width: 100%;
 }/*# sourceMappingURL=photographer.css.map */

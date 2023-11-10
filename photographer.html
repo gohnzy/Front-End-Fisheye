@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/550bae5c8f.js" crossorigin="anonymous"></script>
     <title>Fisheye - photographe </title>
   </head>
   <body class="photographerPages">
@@ -20,19 +21,28 @@
 				<header class="modalHeader">
         </header>
         <img src="assets/icons/close.svg" onclick="closeModal()" />
-				<form>
+				<form class="form">
 					<div class="formDiv">
-						<label for="firstName" data-error="FAUX !" data-error-visible="false">Prénom</label>
-						<input type="text" id="firstName">
-            <label for="name" data-error="FAUX !" data-error-visible="false">Nom</label>
-						<input type="text" id="name">
-            <label for="email" data-error="FAUX !" data-error-visible="false">Email</label>
-						<input type="email" id="email">
-            <label for="message" data-error="FAUX !" data-error-visible="false">Votre message</label>
-						<input type="text" id="message">
-            <input type="submit" class="submit">
+            <div class="formData formFirst" data-error="Le prénom doit comporter au moins deux caractères" data-error-visible="false">
+              <label for="firstName">Prénom</label>
+						  <input type="text" id="firstName">
+            </div>
+            <div class="formData formName" data-error="Le nom doit comporter au moins deux caractères" data-error-visible="false">
+              <label for="name">Nom</label>
+              <input type="text" id="name">
+            </div>
+            <div class="formData formEmail" data-error="L'adresse mail n'est pas valide" data-error-visible="false">
+              <label for="email">Email</label>
+              <input type="email" id="email">
+            </div>
+            <div class="formData formMessage" data-error="Veuillez entrer un brève déscription de votre demande" data-error-visible="false">
+              <p>Votre message</p>
+              <textarea name="message" id="message" cols="0" rows="5" maxlength="300"></textarea>
+            </div>
+            <input type="submit" class="submit" id="submitForm">
 					</div>
 				</form>
+        <div class="sent">Votre message<br>a bien<br>été envoyé.</div>
 			</div>
 		</div>
     <script src="/scripts/pages/photographer.js"></script>
