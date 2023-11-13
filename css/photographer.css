@@ -88,12 +88,30 @@
   width: 350px;
   height: 300px;
   border-radius: 5px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+.photographerContent source {
+  border-radius: 5px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
 }
 .photographerContent .mediaDescription {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  font-size: 20px;
+  font-weight: 400;
+  color: #901c1c;
+  margin-top: 10px;
+}
+.photographerContent .mediaDescription * {
+  margin: 0;
 }
 
 .toolTip {

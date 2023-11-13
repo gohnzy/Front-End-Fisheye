@@ -67,7 +67,23 @@ function displayContent(medias, photographer) {
     toolTip.appendChild(toolTipLikes);
     toolTip.appendChild(toolTipPrice);
 
-    sidePages.appendChild(toolTip);
+    sidePages.appendChild(toolTip); 
+
+    let leek = document.querySelectorAll(".unliked"); 
+        leek.forEach((heart) => heart.addEventListener("click", () => {
+            
+            if(leek.style.color === "#901c1c") {
+                console.log(leek);
+                leek.style.color = "#D3573C";
+
+            }
+            else {
+                leek.style.color = "#901c1c";
+            }
+        }))
+
+            
+       
 }
 
 async function init() {
@@ -172,9 +188,10 @@ function photographerPageContent(data) {
         mediaText.appendChild(mediaTitle);
         const mediaLikes = document.createElement("p");
         mediaLikes.classList.add("mediaLikes")
-        mediaLikes.innerHTML = `${likes} <i class="fa-solid fa-heart"></i>`
+        mediaLikes.innerHTML = `${likes} <i class="unliked fa-solid fa-heart"></i>`
+        
         mediaText.appendChild(mediaLikes);
-
+        
         media.appendChild(mediaText);
 
         return (media)
