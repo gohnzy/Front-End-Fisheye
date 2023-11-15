@@ -1,15 +1,27 @@
 /* eslint-disable no-unused-vars */
+
+/* Lorsque j'ai modifié la manière d'importer les datas depuis le .json pour pouvoir
+implémenter le localStorage, une erreur est apparue au niveau de l'appel à la function
+"contactForm()" depuis "init()" dans pages/photographer.js. L'interaction semblait indiquer
+qu'init n'arriver plus à accéder à "contactForm()" ; du moins au données
+
+*/
+
+
+
+
+const modal = document.getElementById("contact_modal");
 function displayModal() {
-    const modal = document.getElementById("contact_modal");
+
 	modal.style.display = "block";
 }
 
 function closeModal() {
-    const modal = document.getElementById("contact_modal");
+
     modal.style.display = "none";
 }
 
-const modal = document.getElementById("contact_modal");
+
 modal.addEventListener("click", (event) => {
 
     if(event.target === modal) {
@@ -25,18 +37,7 @@ function contactForm(data) {
     photographerName.innerText = `Contactez-moi
     ${name}`;
     modalHeader.appendChild(photographerName);
-/*
-    const formDiv = document.querySelector(".formDiv")
-    const message = document.getElementById("message")
-    message.addEventListener("input", () => {
-        const messageContent = message.value
-        var characterCount = messageContent.length
-    })
 
-    const characterCountDisplay = document.createElement("p")
-    characterCountDisplay.innerHTML = `${characterCount}/1000`
-    formDiv.appendChild(characterCountDisplay)
-    */
 }
 
 // RegExp
@@ -115,3 +116,4 @@ function submitForm() {
         }
     })
 }
+
