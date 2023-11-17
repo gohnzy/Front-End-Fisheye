@@ -1,42 +1,29 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-/*
+
+let totalLikes = 0;
+let price = 0;
+
 // Récupère les datas des photographes
 async function getPhotographersAndMedias() {
-    let datas = window.localStorage.getItem("datas");
-    if(datas === null) {
-        const response = await fetch('data/photographers.json');
-        if (!response) {
-            console.log("Impossible de charger les données");
-            return {};
+    let response = await fetch('data/photographers.json');
+        if(!response) {
+            alert("Error 404");
+            return {}
         }
-        datas = await response.json()
-        const setDatas = JSON.stringify(datas)
-        
-        window.localStorage.setItem("datas", setDatas)
-        return datas   
+    function localMediasInfos(){
+        let mediasDatas = response.medias;
+        let localMediasDatas = JSON.stringify(mediasDatas)
+        window.localStorage.setItem("mediasDatas", localMediasDatas);
+    
     }
-
-    else {
-        datas = JSON.parse(datas)
-        return datas   
-    }
-     
+    return response.json()
 }
-*/
 
-async function getPhotographersAndMedias() {
-    const response = await fetch('data/photographers.json');
-    if (!response) {
-        return {};
-    }
-
-    return response.json();
-}
 // Création DOM pour le header du photographe
 function photographerPageHeader(data) {
 
-    const { name, city, country, tagline, portrait} = data;
+    const {name, city, country, tagline, portrait} = data;
     const picture = `/assets/photos/photographers/${portrait}`;
 
     function photographerHeader(){
@@ -89,7 +76,7 @@ function displayNav() {
         <div class="dateDiv"><a id="date">Date</a></div>
         <div class="titleDiv"><a id="title">Titre</a></div>
     </div>`;
-    insertAfter.parentNode.insertBefore(sortMenu, insertAfter.nextElementSibling)
+    insertAfter.parentNode.insertBefore(sortMenu, insertAfter.nextElementSibling);
 }
 
 // Création du DOM pour le contenu de la page (medias)
@@ -139,18 +126,27 @@ function photographerPageContent(data) {
         mediaLikes.classList.add("mediaLikes")
         mediaLikes.innerHTML = `${likes} <i class="unliked fa-solid fa-heart"></i>`
 
-
-
         mediaLikes.addEventListener("click", () => {
-            
+
             if (mediaLikes.innerHTML === `${likes} <i class="unliked fa-solid fa-heart"></i>`) {
                 likes++
+                totalLikes++
                 mediaLikes.innerHTML = `${likes} <i class="liked fa-solid fa-heart"></i>`;   
+
+                window.localStorage.setItem("likes", likes)
+                console.log(localStorage);
             }
             else {
                 likes--
+                totalLikes--
                 mediaLikes.innerHTML = `${likes} <i class="unliked fa-solid fa-heart"></i>`;
+
+                window.localStorage.setItem("likes", likes)
+                console.log(localStorage);
+
             }
+
+            displayToolTip(price)
         })
    
         
@@ -166,36 +162,17 @@ function photographerPageContent(data) {
 
 } 
 
-// Affiche le contenu de la page
-function displaySortedContent(sortedMedias, photographer) {
-    const {price} = photographer;
+// Création du DOM pour le tool tip
+function displayToolTip() {
 
     const sidePages = document.querySelector(".mainSide");
-    
-    const photographerContent = document.createElement("div");
-    photographerContent.classList.add("photographerContent");
-    photographerContent.setAttribute("id", "notSorted")
-    
-    sidePages.appendChild(photographerContent);
 
-    let mediaLikesCount = 0;
-    let displayLikes = 0
-    sortedMedias.forEach(media => {
- 
-        const photographPageContent = photographerPageContent(media);
-        const photographPageSection = photographPageContent.photographerPageSection();
-        
-        photographerContent.appendChild(photographPageSection);
-        
-        mediaLikesCount += media.likes
-        displayLikes = mediaLikesCount.toLocaleString()
-    });
 
     const toolTip = document.createElement("div");
     toolTip.classList.add("toolTip");
     const toolTipLikes = document.createElement("div");
     toolTipLikes.classList.add("toolTipLikes");
-    toolTipLikes.innerHTML = `${displayLikes} <i class="fa-solid fa-heart"></i>`;
+    toolTipLikes.innerHTML = `${totalLikes} <i class="fa-solid fa-heart"></i>`;
 
     const toolTipPrice = document.createElement("p");
     toolTipPrice.classList.add("toolTipPrice");
@@ -205,6 +182,33 @@ function displaySortedContent(sortedMedias, photographer) {
     toolTip.appendChild(toolTipPrice);
 
     sidePages.appendChild(toolTip); 
+}
+
+
+// Affiche le contenu de la page
+function displaySortedContent(sortedMedias, photographer) {
+    price = photographer.price;
+    const {likes} = sortedMedias
+
+    const sidePages = document.querySelector(".mainSide");
+    
+    const photographerContent = document.createElement("div");
+    photographerContent.classList.add("photographerContent");
+    photographerContent.setAttribute("id", "notSorted")
+    
+    sidePages.appendChild(photographerContent);
+
+   
+    sortedMedias.forEach(media => {
+ 
+        const photographPageContent = photographerPageContent(media);
+        const photographPageSection = photographPageContent.photographerPageSection();
+        
+        photographerContent.appendChild(photographPageSection);
+        
+    });
+
+    displayToolTip(price)
 }
 
 // Function principale regroupant l'appel à toutes les autres fonctions
@@ -223,6 +227,9 @@ async function init() {
     }
 
     const medias = data.media.filter(p => String(p.photographerId) === String(photographer.id)); 
+    medias.forEach(m => {
+        totalLikes += m.likes
+    })
 
     const sortedMedias = Array.from(medias)
     sortedMedias.sort(function (a,b) {
@@ -234,7 +241,6 @@ async function init() {
     displayNav();
     contactForm(photographer);
     submitForm();
-
     // Sort events
     const compareContent = document.querySelector(".photographerContent");
 
@@ -251,7 +257,7 @@ async function init() {
                 toBeDeleted.remove();
             }
             displaySortedContent(sortedMedias, photographer);
-            compareContent.setAttribute("id", "popularSorted")
+            compareContent.setAttribute("id", "popularSorted");
         }
 
         else {
@@ -346,7 +352,9 @@ async function init() {
         }
         
     })
+
 }
 
-init();
-
+init()
+localStorage.clear()
+console.log(localStorage)
