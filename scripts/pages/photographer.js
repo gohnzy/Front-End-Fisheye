@@ -4,65 +4,30 @@
 let totalLikes = 0;
 let price = 0;
 
-// Récupère les datas des photographes
-async function getPhotographersAndMedias() {
-    let response = await fetch('data/photographers.json');
-        if(!response) {
-            alert("Error 404");
-            return {}
-        }
-    function localMediasInfos(){
-        let mediasDatas = response.medias;
-        let localMediasDatas = JSON.stringify(mediasDatas)
-        window.localStorage.setItem("mediasDatas", localMediasDatas);
-    
-    }
-    return response.json()
-}
-
-// Création DOM pour le header du photographe
-function photographerPageHeader(data) {
-
-    const {name, city, country, tagline, portrait} = data;
-    const picture = `/assets/photos/photographers/${portrait}`;
-
-    function photographerHeader(){
-        const photographerHeader = document.createElement("div");
-        photographerHeader.classList.add("photographerHeader");
-        const btnModal = document.createElement("button");
-        btnModal.classList.add("openModal");
-        btnModal.setAttribute("onclick", "displayModal()");
-        btnModal.innerText="Contactez-moi";
-        const photographerInfos = document.createElement("div");
-        photographerInfos.classList.add("photographer-infos");
-        photographerInfos.innerHTML =
-        `<h1>${name}</h1><br>
-        <h2>${city}, ${country}</h2><br>
-        <h3>${tagline}</h3>`;
-        const portraitDiv = document.createElement("div");
-        portraitDiv.classList.add("portraitDiv")
-        const photographerPortrait = document.createElement("img");
-        photographerPortrait.setAttribute("src", picture);
-        photographerHeader.appendChild(photographerInfos);
-        photographerHeader.appendChild(btnModal);
-        portraitDiv.appendChild(photographerPortrait);
-        photographerHeader.appendChild(portraitDiv);
-        
-
-        return (photographerHeader)
-    }
-    
-    return {photographerHeader}
-
-}
-
 // Affiche les photographes
 function displayHeader(photographer) {
-    
-    const sidePages = document.querySelector(".mainSide");
-    const photographPageHeader = photographerPageHeader(photographer);
-    const photographerHeader = photographPageHeader.photographerHeader();
-    sidePages.appendChild(photographerHeader);
+    const {name, city, country, tagline, portrait} = photographer;
+    const picture = `/assets/photos/photographers/${portrait}`;
+
+    const photographerHeader = document.querySelector('.photographerHeader');
+    const btnModal = document.createElement("button");
+    btnModal.classList.add("openModal");
+    btnModal.setAttribute("onclick", "displayModal()");
+    btnModal.innerText="Contactez-moi";
+    const photographerInfos = document.createElement("div");
+    photographerInfos.classList.add("photographer-infos");
+    photographerInfos.innerHTML =
+    `<h1>${name}</h1><br>
+    <h2>${city}, ${country}</h2><br>
+    <h3>${tagline}</h3>`;
+    const portraitDiv = document.createElement("div");
+    portraitDiv.classList.add("portraitDiv")
+    const photographerPortrait = document.createElement("img");
+    photographerPortrait.setAttribute("src", picture);
+    photographerHeader.appendChild(photographerInfos);
+    photographerHeader.appendChild(btnModal);
+    portraitDiv.appendChild(photographerPortrait);
+    photographerHeader.appendChild(portraitDiv);
 }
 
 // Création DOM menu de tri
@@ -71,105 +36,94 @@ function displayNav() {
     const sortMenu = document.createElement("div");
     sortMenu.classList.add("sortMenu");
     sortMenu.innerHTML = `<h4>Trier par</h4>
-    <div class="dropdownMenu">
-        <div class="popularDiv"><a id="popular">Popularité<i class="fa-solid fa-chevron-up"></i></a></div>
-        <div class="dateDiv"><a id="date">Date</a></div>
-        <div class="titleDiv"><a id="title">Titre</a></div>
-    </div>`;
+    <ul class="dropdownMenu">
+        <li class="popularDiv">Popularité</li>
+        <i class="fa-solid fa-chevron-up"></i>
+        <li class="dateDiv">Date</li>
+        <li class="titleDiv">Titre</a></li>
+    </ul>`;
     insertAfter.parentNode.insertBefore(sortMenu, insertAfter.nextElementSibling);
 }
 
+const reRenderLikes = (target, media, operator) => {
+    if (operator === '-') {
+        target.innerHTML = `${media.likes} <i class="unliked fa-solid fa-heart"></i>`;
+    }
+    if (operator === '+') {
+        target.innerHTML = `${media.likes} <i class="liked fa-solid fa-heart"></i>`;
+    }
+}
+
 // Création du DOM pour le contenu de la page (medias)
-function photographerPageContent(data) {
+function createMediaElement(data) {
 
     let {image, video, id, photographerId, title, date, likes} = data;
     let file;    
 
     if(image) {
         file = `assets/photos/${photographerId}/${image}`;
-    }
-
-    else if(video) {
+    } else if(video) {
         file = `assets/photos/${photographerId}/${video}`;
-    }
-
-    else {
+    } else {
         return null
     }
 
-    function photographerPageSection() {
-        const media = document.createElement("div");
-        media.classList.add("medias");
-        media.setAttribute("id", id);
+    const media = document.createElement("div");
+    media.classList.add("medias");
+    media.setAttribute("id", id);
+    media.setAttribute("date", date);
+    media.setAttribute("name", title);
 
-        if(image) {
-            const image = document.createElement("img");
-            image.setAttribute("src", file);
-            media.appendChild(image);
-        }
+    if(image) {
+        const image = document.createElement("img");
+        image.setAttribute("src", file);
+        media.appendChild(image);
+    }
+
+    else if(video) {
+        const video = document.createElement("video");
+        video.setAttribute("controls", "")
+        const source = document.createElement("source");
+        source.setAttribute("src", file);
+        video.appendChild(source);
+        media.appendChild(video);
+    }
     
-        else if(video) {
-            const video = document.createElement("video");
-            video.setAttribute("controls", "")
-            const source = document.createElement("source");
-            source.setAttribute("src", file);
-            video.appendChild(source);
-            media.appendChild(video);
+    const mediaText = document.createElement("p");
+    mediaText.classList.add("mediaDescription")
+    const mediaTitle = document.createElement("h4");
+    mediaTitle.innerText = `${title}`;
+    mediaText.appendChild(mediaTitle);
+    const mediaLikes = document.createElement("p");
+    mediaLikes.classList.add("mediaLikes")
+    mediaLikes.innerHTML = `${likes} <i class="unliked fa-solid fa-heart"></i>`
+
+    mediaLikes.addEventListener("click", (event) => {
+        if (mediaLikes.innerHTML === `${likes} <i class="unliked fa-solid fa-heart"></i>`) {
+            data.likes += 1;
+            totalLikes++
+            reRenderLikes(mediaLikes, data, '+');
         }
-        
-        const mediaText = document.createElement("p");
-        mediaText.classList.add("mediaDescription")
-        const mediaTitle = document.createElement("h4");
-        mediaTitle.innerText = `${title}`;
-        mediaText.appendChild(mediaTitle);
-        const mediaLikes = document.createElement("p");
-        mediaLikes.classList.add("mediaLikes")
-        mediaLikes.innerHTML = `${likes} <i class="unliked fa-solid fa-heart"></i>`
+        else {
+            data.likes -= 1;
+            totalLikes--
+            reRenderLikes(mediaLikes, data, '-');
+        }
 
-        mediaLikes.addEventListener("click", () => {
+        displayToolTip()
+    })
 
-            if (mediaLikes.innerHTML === `${likes} <i class="unliked fa-solid fa-heart"></i>`) {
-                likes++
-                totalLikes++
-                mediaLikes.innerHTML = `${likes} <i class="liked fa-solid fa-heart"></i>`;   
-
-                window.localStorage.setItem("likes", likes)
-                console.log(localStorage);
-            }
-            else {
-                likes--
-                totalLikes--
-                mediaLikes.innerHTML = `${likes} <i class="unliked fa-solid fa-heart"></i>`;
-
-                window.localStorage.setItem("likes", likes)
-                console.log(localStorage);
-
-            }
-
-            displayToolTip(price)
-        })
-   
-        
-        mediaText.appendChild(mediaLikes);
-        
-        media.appendChild(mediaText);
-
-        return (media)
-
-    } 
-
-    return {photographerPageSection}
-
+    
+    mediaText.appendChild(mediaLikes);
+    media.appendChild(mediaText);
+    
+    return media
 } 
 
 // Création du DOM pour le tool tip
 function displayToolTip() {
-
-    const sidePages = document.querySelector(".mainSide");
-
-
-    const toolTip = document.createElement("div");
-    toolTip.classList.add("toolTip");
+    const toolTip = document.querySelector(".toolTip");
+    
     const toolTipLikes = document.createElement("div");
     toolTipLikes.classList.add("toolTipLikes");
     toolTipLikes.innerHTML = `${totalLikes} <i class="fa-solid fa-heart"></i>`;
@@ -177,38 +131,34 @@ function displayToolTip() {
     const toolTipPrice = document.createElement("p");
     toolTipPrice.classList.add("toolTipPrice");
     toolTipPrice.innerHTML = `${price}€ / jour`;
-
-    toolTip.appendChild(toolTipLikes);
-    toolTip.appendChild(toolTipPrice);
-
-    sidePages.appendChild(toolTip); 
+   
+    toolTip.replaceChildren(toolTipLikes, toolTipPrice);
 }
 
 
 // Affiche le contenu de la page
-function displaySortedContent(sortedMedias, photographer) {
+function displayMediasContent(sortedMedias, photographer) {
     price = photographer.price;
-    const {likes} = sortedMedias
 
-    const sidePages = document.querySelector(".mainSide");
-    
-    const photographerContent = document.createElement("div");
-    photographerContent.classList.add("photographerContent");
-    photographerContent.setAttribute("id", "notSorted")
-    
-    sidePages.appendChild(photographerContent);
+    const photographerContent = document.querySelector(".photographerContent");
 
-   
     sortedMedias.forEach(media => {
- 
-        const photographPageContent = photographerPageContent(media);
-        const photographPageSection = photographPageContent.photographerPageSection();
-        
-        photographerContent.appendChild(photographPageSection);
-        
+        photographerContent.appendChild( createMediaElement(media));
     });
 
-    displayToolTip(price)
+    displayToolTip()
+}
+
+// Récupère les datas des photographes
+const getPhotographersAndMedias = async () =>  {
+    let response = await fetch('data/photographers.json');
+    
+    if(!response) {
+        alert("Error 404");
+        return {}
+    }
+
+    return response.json();
 }
 
 // Function principale regroupant l'appel à toutes les autres fonctions
@@ -226,130 +176,77 @@ async function init() {
         location.href = 'notFound.html';
     }
 
-    const medias = data.media.filter(p => String(p.photographerId) === String(photographer.id)); 
+    const medias = data.media.filter(p => String(p.photographerId) === String(photographer.id)).sort(function (a,b) {
+        return b.likes - a.likes;
+    }); 
+
     medias.forEach(m => {
         totalLikes += m.likes
     })
 
-    const sortedMedias = Array.from(medias)
-    sortedMedias.sort(function (a,b) {
-        return b.likes - a.likes;
-    })
+
 
     displayHeader(photographer);
-    displaySortedContent(sortedMedias, photographer);
+    displayMediasContent(medias, photographer);
     displayNav();
     contactForm(photographer);
     submitForm();
+    
     // Sort events
-    const compareContent = document.querySelector(".photographerContent");
 
+    console.log("1",document.querySelector(".dropdownMenu :nth-child(1)"));
+    console.log("2",document.querySelector(".dropdownMenu :nth-child(2)"));
+    console.log("3",document.querySelector(".dropdownMenu :nth-child(3)"));
+
+    const drpMenu = document.querySelector(".dropdownMenu")
     // Sorting by likes (popularity)
     const popularSort = document.querySelector(".popularDiv");
     popularSort.addEventListener("click", () => {
-        const sortedMedias = Array.from(medias)
-        if (compareContent.id === "notSorted") {
-            sortedMedias.sort(function (a, b) {
-                return a.likes - b.likes;
-            })
-            const toBeDeleted = document.querySelector(".photographerContent");
-            if (toBeDeleted) {
-                toBeDeleted.remove();
-            }
-            displaySortedContent(sortedMedias, photographer);
-            compareContent.setAttribute("id", "popularSorted");
-        }
+        const photographerContent = document.querySelector('.photographerContent');
+        const menu = Array.prototype.slice.call(drpMenu.children)
+        const nodes = Array.prototype.slice.call(photographerContent.childNodes);
+        console.log(menu);
+        nodes.sort(function (a, b) {
+            const likesA = a.children[1].children[1].outerText;
+            const likesB = b.children[1].children[1].outerText;
+            return likesB - likesA
+        })
+       
+        nodes.forEach(n => photographerContent.appendChild(n));
 
-        else {
-            sortedMedias.sort(function (a, b) {
-                return b.likes - a.likes
-            })
-            const toBeDeleted = document.querySelectorAll(".photographerContent")
-            if (toBeDeleted) {
-                toBeDeleted.forEach(e => {
-                    e.remove()
-                });
-            }
-            displaySortedContent(sortedMedias, photographer);
-            compareContent.setAttribute("id", "notSorted")
-        }
-        
     })
-
     // Sorting by date 
     const dateSort = document.querySelector(".dateDiv");
     dateSort.addEventListener("click", () => {
-        const sortedMedias = Array.from(medias)
-        
-        if (compareContent.id === "notSorted") {
-            sortedMedias.sort(function (a, b) {
-                const dateA = new Date(a.date)
-                const dateB = new Date(b.date)
-                return dateA - dateB
-            })
-            const toBeDeleted = document.querySelector(".photographerContent");
-            if (toBeDeleted) {
-                toBeDeleted.remove();
-            }
-            displaySortedContent(sortedMedias, photographer);
-            compareContent.setAttribute("id", "popularSorted")
-        }
+        const photographerContent = document.querySelector('.photographerContent');
+        const nodes = Array.prototype.slice.call(photographerContent.childNodes);
 
-        else {
-            sortedMedias.sort(function (a, b) {
-                const dateA = new Date(a.date)
-                const dateB = new Date(b.date)
-                return dateB - dateA
-            })
-            const toBeDeleted = document.querySelectorAll(".photographerContent")
-            if (toBeDeleted) {
-                toBeDeleted.forEach(e => {
-                    e.remove()
-                });
-            }
-            displaySortedContent(sortedMedias, photographer);
-            compareContent.setAttribute("id", "notSorted")
-        }
-
+        nodes.sort(function (a, b) {
+            const dateA = new Date(a.attributes.date.value);
+            const dateB = new Date(b.attributes.date.value);
+            return dateA - dateB
+        })
+       
+        nodes.forEach(n => photographerContent.appendChild(n));
     })
 
     // Sorting by title
     const titleSort = document.querySelector(".titleDiv");
     titleSort.addEventListener("click", () => {
-        const sortedMedias = Array.from(medias)
-        if (compareContent.id === "notSorted") {
-            sortedMedias.sort(function (a, b) {
-                if (a.title < b.title) {
-                    return -1
-                }
-
-                return 0
-            })
-            const toBeDeleted = document.querySelector(".photographerContent");
-            if (toBeDeleted) {
-                toBeDeleted.remove();
-            }
-            displaySortedContent(sortedMedias, photographer);
-            compareContent.setAttribute("id", "popularSorted")
-        }
-
-        else {
-            sortedMedias.sort(function (a, b) {
-                if (a.title < b.title) {
-                    return 0
-                }
-
+        const photographerContent = document.querySelector('.photographerContent');
+        const nodes = Array.prototype.slice.call(photographerContent.childNodes);
+        console.log(nodes);
+        nodes.sort(function (a, b) {
+            const titleA = a.attributes.name.value;
+            const titleB = b.attributes.name.value;
+            if (titleA < titleB) {
                 return -1
-            })
-            const toBeDeleted = document.querySelectorAll(".photographerContent")
-            if (toBeDeleted) {
-                toBeDeleted.forEach(e => {
-                    e.remove()
-                });
             }
-            displaySortedContent(sortedMedias, photographer);
-            compareContent.setAttribute("id", "notSorted")
-        }
+
+            return 0
+        })
+        console.log('sortedNodes', nodes);
+        nodes.forEach(n => photographerContent.appendChild(n));
         
     })
 
@@ -357,4 +254,3 @@ async function init() {
 
 init()
 localStorage.clear()
-console.log(localStorage)

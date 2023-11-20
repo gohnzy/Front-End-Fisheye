@@ -113,33 +113,31 @@ $secondColor: #901c1c;
         border-radius: 5px;
         position: absolute;
         left: 150px;
-        top: 2px;
+        padding-left: 0;
+        top: -10px;
         z-index: 5;
 
 
-        &:hover {
-            & .dateDiv, .titleDiv {
-                display: flex;
-            }
-            & a {
-                border-bottom: 1px solid white;
-            }
-            & i {
-
-                transform: rotate(180deg);
-                transition: 0.3s linear;
-            }
-
+        & i {
+            position: absolute;
+            top: 22px;
+            right: 12px;
         }
 
-        &:not(:hover) i{
-            transition: 0.4s linear;
-        }
         
-        & div {
-            width: 100%;
+        & li {
+            width: 50px;
             height: 100%;
             padding: 10px 15px;
+            display: flex;
+            justify-content: start;
+            align-items: start;
+            text-align: start;
+            margin: auto;
+            height: 29px;
+            padding-bottom: 10px;
+            width: 80%;
+            position: relative;
             
             &:hover {
                 cursor: pointer; 
@@ -149,57 +147,63 @@ $secondColor: #901c1c;
 
         }
 
-        & a {
-            display: flex;
-            justify-content: start;
-            align-items: start;
-            text-align: start;
-            margin: auto;
-            height: 29px;
-            padding-bottom: 10px;
-            width: 80%;
-            border-bottom: 1px solid transparent;
-            
-        }   
 
-        & .dateDiv {
-            padding-top: 0px;
+        &:hover {
+            & :nth-child(3), :nth-child(4){
+                display: flex;
+            }
+            & :nth-child(1)::after, 
+              :nth-child(3)::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 10%; 
+                    width: 80%; 
+                    height: 1px; 
+                    background-color: white; 
+            }
+            & i {
+
+                transform: rotate(180deg);
+                transition: 0.3s linear;
+            }
+
         }
 
-        & .dateDiv, .titleDiv {
-            display: none;
+        &:not(:hover) i {
+            transition: 0.4s linear;
         }
 
-        & .popularDiv {
+        
+
+        & :nth-child(1) {
 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 39px;
-            z-index: 3;
+            z-index: 3;       
+            align-items: start;
+            gap: 15px;
+            position: relative;
 
-            & i {
-                display: block;
-            }
-            
-            & #popular {
-                padding-top: 15px;
-                align-items: center;
-                gap: 15px;
-                padding-bottom: 15px;
-            } 
         }
-        
-        & #title {
-            border: none;
-            padding-bottom: 0;
-        }   
-        
-        & #date {
+
+        & :nth-child(3), :nth-child(4) {
+            display: none;
+        }
+
+        & :nth-child(3) {
             padding-top: 15px;
             height: 29px;
         }
+
+        & :nth-child(4){
+            border: none;
+            padding-top: 15px;
+        }   
+ 
     }
 }
 
@@ -498,4 +502,14 @@ $secondColor: #901c1c;
         border-radius: 5px;
         width: 100%;
     }
+}
+
+.lightbox {
+    width: 1240px;
+    height: 100%;
+}
+
+.mainSide {
+    height: 100%;
+    overflow: hidden;
 }

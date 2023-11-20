@@ -92,33 +92,19 @@
   border-radius: 5px;
   position: absolute;
   left: 150px;
-  top: 2px;
+  padding-left: 0;
+  top: -10px;
   z-index: 5;
 }
-.sortMenu .dropdownMenu:hover .dateDiv, .sortMenu .dropdownMenu:hover .titleDiv {
-  display: flex;
+.sortMenu .dropdownMenu i {
+  position: absolute;
+  top: 22px;
+  right: 12px;
 }
-.sortMenu .dropdownMenu:hover a {
-  border-bottom: 1px solid white;
-}
-.sortMenu .dropdownMenu:hover i {
-  transform: rotate(180deg);
-  transition: 0.3s linear;
-}
-.sortMenu .dropdownMenu:not(:hover) i {
-  transition: 0.4s linear;
-}
-.sortMenu .dropdownMenu div {
-  width: 100%;
+.sortMenu .dropdownMenu li {
+  width: 50px;
   height: 100%;
   padding: 10px 15px;
-}
-.sortMenu .dropdownMenu div:hover {
-  cursor: pointer;
-  color: #dc7b66;
-  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
-}
-.sortMenu .dropdownMenu a {
   display: flex;
   justify-content: start;
   align-items: start;
@@ -127,38 +113,54 @@
   height: 29px;
   padding-bottom: 10px;
   width: 80%;
-  border-bottom: 1px solid transparent;
+  position: relative;
 }
-.sortMenu .dropdownMenu .dateDiv {
-  padding-top: 0px;
+.sortMenu .dropdownMenu li:hover {
+  cursor: pointer;
+  color: #dc7b66;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
 }
-.sortMenu .dropdownMenu .dateDiv, .sortMenu .dropdownMenu .titleDiv {
-  display: none;
+.sortMenu .dropdownMenu:hover :nth-child(3), .sortMenu .dropdownMenu:hover :nth-child(4) {
+  display: flex;
 }
-.sortMenu .dropdownMenu .popularDiv {
+.sortMenu .dropdownMenu:hover :nth-child(1)::after,
+.sortMenu .dropdownMenu:hover :nth-child(3)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background-color: white;
+}
+.sortMenu .dropdownMenu:hover i {
+  transform: rotate(180deg);
+  transition: 0.3s linear;
+}
+.sortMenu .dropdownMenu:not(:hover) i {
+  transition: 0.4s linear;
+}
+.sortMenu .dropdownMenu :nth-child(1) {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 39px;
   z-index: 3;
-}
-.sortMenu .dropdownMenu .popularDiv i {
-  display: block;
-}
-.sortMenu .dropdownMenu .popularDiv #popular {
-  padding-top: 15px;
-  align-items: center;
+  align-items: start;
   gap: 15px;
-  padding-bottom: 15px;
+  position: relative;
 }
-.sortMenu .dropdownMenu #title {
-  border: none;
-  padding-bottom: 0;
+.sortMenu .dropdownMenu :nth-child(3), .sortMenu .dropdownMenu :nth-child(4) {
+  display: none;
 }
-.sortMenu .dropdownMenu #date {
+.sortMenu .dropdownMenu :nth-child(3) {
   padding-top: 15px;
   height: 29px;
+}
+.sortMenu .dropdownMenu :nth-child(4) {
+  border: none;
+  padding-top: 15px;
 }
 
 .photographerContent {
@@ -406,4 +408,14 @@
   border: 0;
   border-radius: 5px;
   width: 100%;
+}
+
+.lightbox {
+  width: 1240px;
+  height: 100%;
+}
+
+.mainSide {
+  height: 100%;
+  overflow: hidden;
 }/*# sourceMappingURL=photographer.css.map */

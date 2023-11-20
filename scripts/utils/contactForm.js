@@ -1,19 +1,10 @@
 /* eslint-disable no-unused-vars */
 
-/* Lorsque j'ai modifié la manière d'importer les datas depuis le .json pour pouvoir
-implémenter le localStorage, une erreur est apparue au niveau de l'appel à la function
-"contactForm()" depuis "init()" dans pages/photographer.js. L'interaction semblait indiquer
-qu'init n'arriver plus à accéder à "contactForm()" ; du moins au données
-
-*/
-
-
-
-
 const modal = document.getElementById("contact_modal");
 function displayModal() {
 
 	modal.style.display = "block";
+
 }
 
 function closeModal() {
