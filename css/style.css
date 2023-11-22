@@ -4,6 +4,8 @@ body {
   margin: auto;
   max-width: 1440px;
   width: 100%;
+  height: -moz-fit-content;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -1,4 +1,9 @@
 @import url("style.css");
+.mainSide {
+  height: 100%;
+  overflow: hidden;
+}
+
 .photographerPages header img {
   margin-top: 30px;
 }
@@ -123,7 +128,7 @@
 .sortMenu .dropdownMenu:hover :nth-child(3), .sortMenu .dropdownMenu:hover :nth-child(4) {
   display: flex;
 }
-.sortMenu .dropdownMenu:hover :nth-child(1)::after,
+.sortMenu .dropdownMenu:hover :nth-child(2)::after,
 .sortMenu .dropdownMenu:hover :nth-child(3)::after {
   content: "";
   position: absolute;
@@ -134,13 +139,14 @@
   background-color: white;
 }
 .sortMenu .dropdownMenu:hover i {
+  color: #dc7b66;
   transform: rotate(180deg);
   transition: 0.3s linear;
 }
 .sortMenu .dropdownMenu:not(:hover) i {
   transition: 0.4s linear;
 }
-.sortMenu .dropdownMenu :nth-child(1) {
+.sortMenu .dropdownMenu :nth-child(2) {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -207,6 +213,15 @@
   font-weight: 400;
   color: #901c1c;
   margin-top: 10px;
+  overflow: hidden;
+  max-width: 350px;
+  gap: 0;
+}
+.photographerContent .mediaDescription h4 {
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .photographerContent .mediaDescription * {
   margin: 0;
@@ -411,11 +426,117 @@
 }
 
 .lightbox {
-  width: 1240px;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  position: absolute;
+  margin: auto;
+  gap: 15px;
 }
-
-.mainSide {
+.lightbox * {
+  animation: fade 0.2s ease-in-out 1 forwards;
+}
+@keyframes fade {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.lightbox .left {
+  color: #901C1C;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 5%;
+  box-sizing: border-box;
+  top: 0;
+  text-align: end;
   height: 100%;
-  overflow: hidden;
+  width: 7%;
+  font-size: 55px;
+  font-weight: 900;
+}
+.lightbox .left:hover {
+  cursor: pointer;
+  transform: translateX(-8px);
+  transition: ease-in-out 0.1s;
+}
+.lightbox .right {
+  color: #901C1C;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 5%;
+  box-sizing: border-box;
+  top: 0;
+  height: 100%;
+  width: 7%;
+  font-size: 55px;
+  font-weight: 900;
+}
+.lightbox .right:hover {
+  cursor: pointer;
+  transform: translateX(8px);
+  transition: ease-in-out 0.1s;
+}
+.lightbox .left:not(:hover), .lightbox .right:not(:hover) {
+  transition: ease-in-out 0.2s;
+}
+.lightbox :nth-child(2) {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  gap: 0;
+  margin: auto 0 auto 0;
+}
+.lightbox :nth-child(2) :nth-child(1) {
+  margin: auto;
+  max-width: 1240px;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-height: 880px;
+  height: -moz-fit-content;
+  height: fit-content;
+  -o-object-fit: contain;
+     object-fit: contain;
+  box-shadow: 6px 1px 3px 0px #c4c4c4;
+}
+.lightbox :nth-child(2) h4 {
+  position: absolute;
+  left: 0;
+  top: 101%;
+  font-size: 24px;
+  font-weight: 400;
+  color: #901c1c;
+}
+.lightbox svg {
+  fill: #901c1c;
+  position: absolute;
+  right: 55px;
+  top: 55px;
+  z-index: 100;
+  padding: 15px;
+}
+.lightbox svg:hover {
+  cursor: pointer;
+  transform: rotate(90deg);
+  transition: ease-in-out 0.4s;
+}
+.lightbox svg:not(:hover) {
+  transition: ease-in-out 0.6s;
 }/*# sourceMappingURL=photographer.css.map */

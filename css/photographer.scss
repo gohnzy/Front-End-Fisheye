@@ -3,6 +3,12 @@
 $mainColor : #D3573C;
 $secondColor: #901c1c;
 
+
+.mainSide {
+    height: 100%;
+    overflow: hidden;
+}
+
 .photographerPages header img {
 
     margin-top: 30px;
@@ -152,7 +158,7 @@ $secondColor: #901c1c;
             & :nth-child(3), :nth-child(4){
                 display: flex;
             }
-            & :nth-child(1)::after, 
+            & :nth-child(2)::after, 
               :nth-child(3)::after {
                     content: '';
                     position: absolute;
@@ -163,6 +169,7 @@ $secondColor: #901c1c;
                     background-color: white; 
             }
             & i {
+                color: lighten($color: $mainColor, $amount: 10%);
 
                 transform: rotate(180deg);
                 transition: 0.3s linear;
@@ -176,7 +183,7 @@ $secondColor: #901c1c;
 
         
 
-        & :nth-child(1) {
+        & :nth-child(2) {
 
             display: flex;
             flex-direction: column;
@@ -254,7 +261,16 @@ $secondColor: #901c1c;
         font-weight: 400;
         color: $secondColor;
         margin-top: 10px;
+        overflow: hidden;
+        max-width: 350px;
+        gap: 0;
 
+        & h4 {
+            max-width: 80%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
        
         & * {
             margin: 0;
@@ -505,11 +521,130 @@ $secondColor: #901c1c;
 }
 
 .lightbox {
-    width: 1240px;
-    height: 100%;
-}
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    z-index: 50;
+    top:  0;
+    left: 0;
+    position: absolute;
+    margin: auto;
+    gap: 15px;
 
-.mainSide {
-    height: 100%;
-    overflow: hidden;
+    & * {
+        animation: fade 0.2s ease-in-out 1 forwards;
+        @keyframes fade {
+    
+            from {
+                opacity: 0.2;
+            }
+    
+            to {
+                opacity: 1;
+            }
+        }
+    }
+    
+
+
+    & .left {
+
+        color: #901C1C;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 5%;
+        box-sizing: border-box;
+        top: 0;
+        text-align: end;
+        height: 100%;
+        width: 7%;
+        font-size: 55px;
+        font-weight:900;
+        &:hover {
+            cursor: pointer;
+            transform: translateX(-8px);
+            transition: ease-in-out .1s;
+        }
+    }
+    & .right {
+
+        color: #901C1C;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-right: 5%;
+        box-sizing: border-box;
+        top: 0;
+        height: 100%;
+        width: 7%;
+        font-size: 55px;
+        font-weight:900;
+        &:hover {
+            cursor: pointer;
+            transform: translateX(8px);
+            transition: ease-in-out .1s;
+        }
+    }
+
+    & .left:not(:hover), .right:not(:hover) {
+
+        transition: ease-in-out .2s;
+    }
+
+    & :nth-child(2) {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        width: fit-content;
+        height: fit-content;
+        gap: 0;
+        margin: auto 0 auto 0;
+        & :nth-child(1){
+
+            margin: auto;
+            max-width: 1240px;
+            width: fit-content;
+            max-height: 880px;
+            height: fit-content;
+            object-fit: contain;
+            box-shadow: 6px 1px 3px 0px #c4c4c4;
+        }
+
+        & h4 { 
+            position: absolute;
+            left: 0;
+            top: 101%;
+            font-size: 24px;
+            font-weight: 400;
+            color: $secondColor;
+        }
+    }
+
+    
+
+    & svg {
+        fill: $secondColor;
+        position: absolute;
+        right: 55px;
+        top: 55px;
+        z-index: 100;
+        padding: 15px;
+
+        &:hover {
+            cursor: pointer;
+            transform: rotate(90deg);
+            transition: ease-in-out 0.4s;
+        }
+    
+        &:not(:hover){
+            transition: ease-in-out .6s;
+        }
+    }
 }
