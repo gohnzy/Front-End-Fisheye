@@ -45,41 +45,96 @@ async function init() {
     contactForm(photographer);
     submitForm();
     
+    const dropdownMenu = document.querySelector(".dropdownMenu");
+    const first = document.querySelector(".dropdownMenu :nth-child(2)");
+    const second = document.querySelector(".dropdownMenu :nth-child(3)");
+    const third = document.querySelector(".dropdownMenu :nth-child(4)");
+
     const mediaForLightbox = document.querySelectorAll(".medias");
     const lightbox = document.querySelector(".lightbox");
     const body = document.querySelector("body");
     const left = document.querySelector(".left");
     const right = document.querySelector(".right");
 
+    const popularSort = document.querySelectorAll(".popularDiv");
+    popularSort.forEach(btn => btn.addEventListener("click", () => {
+        const photographerContent = document.querySelector('.photographerContent');
 
-    function leftClick() {
-        console.clear()
-    }
+        const nodes = [...photographerContent.childNodes];
+        nodes.sort(function (a, b) {
+            const likesA = a.children[1].children[1].outerText;
+            const likesB = b.children[1].children[1].outerText;
+            return likesB - likesA
+        })
 
-    function rightClick() {
-        console.log("droite");
-    }
+        nodes.forEach(n => photographerContent.appendChild(n));
+
+        if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "dateDiv"){
+            dropdownMenu.insertBefore(first, second);
+        }
+        else if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "titleDiv"){
+            dropdownMenu.insertBefore(first, third);
+        }
+    }));
+
+    // Sorting by date 
+    const dateSort = document.querySelectorAll(".dateDiv");
+    dateSort.forEach(btn => btn.addEventListener("click", () => {
+        const photographerContent = document.querySelector('.photographerContent');
+        const nodes = Array.prototype.slice.call(photographerContent.childNodes);
+
+        nodes.sort(function (a, b) {
+            const dateA = new Date(a.attributes.date.value);
+            const dateB = new Date(b.attributes.date.value);
+            return dateA - dateB
+        })
+        nodes.forEach(n => photographerContent.appendChild(n));
+
+        if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "popularDiv"){
+            dropdownMenu.insertBefore(second, first);
+        }
+        else if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "titleDiv"){
+            dropdownMenu.insertBefore(second, third);
+        }
+
+    }))
+
+    // Sorting by title
+    const titleSort = document.querySelectorAll(".titleDiv");
+    titleSort.forEach(btn => btn.addEventListener("click", () => {
+        const photographerContent = document.querySelector('.photographerContent');
+        const nodes = Array.prototype.slice.call(photographerContent.childNodes);
+        nodes.sort(function (a, b) {
+            const titleA = a.attributes.name.value;
+            const titleB = b.attributes.name.value;
+            if (titleA < titleB) {
+                return -1
+            }
+
+            return 0
+        })
+        nodes.forEach(n => photographerContent.appendChild(n));
+
+        if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "popularDiv"){
+            dropdownMenu.insertBefore(third, first);
+        }
+        else if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "dateDiv"){
+            dropdownMenu.insertBefore(third, second);
+        }
+        
+    }));
 
     mediaForLightbox.forEach((i, index) => i.addEventListener("click", () => {
 
         let thisMedia = mediaFactory.mediasDatas[index];
       
-        mediaFactory.createLightbox(thisMedia)
+        mediaFactory.createLightbox(thisMedia);
 
         const lightboxMedia = document.querySelector(".lightboxMedia");
-
-
-
-        left.removeEventListener("click",leftClick);
-        left.addEventListener("click", ()=>{console.log(index+1)});
-
         
-        right.removeEventListener("click", rightClick);
-        right.addEventListener("click", rightClick);
-        
-        const svg = document.querySelector("svg")
+        const closeLightboxBtn = document.querySelector("svg");
 
-        svg.addEventListener("click", (event) => {
+        closeLightboxBtn.addEventListener("click", (event) => {
             if(event.target) {
                 
                 document.documentElement.scrollTop = i.offsetTop;
@@ -101,60 +156,27 @@ async function init() {
             }
         }
         
-    }))
-    const dropMenu = document.querySelector(".dropdownMenu");
-    // Sorting by likes (popularity)
+        left.addEventListener("click", () => {
+            console.log(("g"));
+            navigateMedia(-1);
 
-    const popularSort = document.querySelectorAll(".popularDiv");
-    popularSort.forEach(btn => btn.addEventListener("click", () => {
-        const photographerContent = document.querySelector('.photographerContent');
+        });
+        right.addEventListener("click", () => {
+            console.log(("d"));
+            navigateMedia(1);
 
-        const nodes = Array.prototype.slice.call(photographerContent.childNodes);
+        });
 
-        nodes.sort(function (a, b) {
-            const likesA = a.children[1].children[1].outerText;
-            const likesB = b.children[1].children[1].outerText;
-            return likesB - likesA
-        })
-       
-        nodes.forEach(n => photographerContent.appendChild(n));
-    }));
+        function navigateMedia(direction) {
+            lightboxMedia.innerHTML = "";
+            let newIndex = index + direction;
 
-    // Sorting by date 
-    const dateSort = document.querySelectorAll(".dateDiv");
-    dateSort.forEach(btn => btn.addEventListener("click", () => {
-        const photographerContent = document.querySelector('.photographerContent');
-        const nodes = Array.prototype.slice.call(photographerContent.childNodes);
+            // Assurez-vous que l'index reste dans les limites du tableau
 
-        nodes.sort(function (a, b) {
-            const dateA = new Date(a.attributes.date.value);
-            const dateB = new Date(b.attributes.date.value);
-            return dateA - dateB
-        })
-       
-        nodes.forEach(n => photographerContent.appendChild(n));
-        const first = document.querySelector(".dropdownMenu :nth-child(2)")
-        const second = document.querySelector(".dropdownMenu :nth-child(3)")
+            thisMedia = mediaFactory.mediasDatas[newIndex];
+            mediaFactory.createLightbox(thisMedia);
+        }
 
-        dropMenu.insertBefore(second, first)
-    }))
-
-    // Sorting by title
-    const titleSort = document.querySelectorAll(".titleDiv");
-    titleSort.forEach(btn => btn.addEventListener("click", () => {
-        const photographerContent = document.querySelector('.photographerContent');
-        const nodes = Array.prototype.slice.call(photographerContent.childNodes);
-        nodes.sort(function (a, b) {
-            const titleA = a.attributes.name.value;
-            const titleB = b.attributes.name.value;
-            if (titleA < titleB) {
-                return -1
-            }
-
-            return 0
-        })
-        nodes.forEach(n => photographerContent.appendChild(n));
-        
     }))
 }
 

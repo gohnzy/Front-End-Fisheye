@@ -609,9 +609,9 @@ $secondColor: #901c1c;
         & :nth-child(1){
 
             margin: auto;
-            max-width: 1240px;
+            max-width: 80vw;
             width: fit-content;
-            max-height: 880px;
+            max-height: 80vh;
             height: fit-content;
             object-fit: contain;
             box-shadow: 6px 1px 3px 0px #c4c4c4;
@@ -632,8 +632,8 @@ $secondColor: #901c1c;
     & svg {
         fill: $secondColor;
         position: absolute;
-        right: 55px;
-        top: 55px;
+        right: 2.5em;
+        top: 2.5em;
         z-index: 100;
         padding: 15px;
 
