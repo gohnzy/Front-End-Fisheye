@@ -40,7 +40,9 @@ async function init() {
     displaySortMenu();
 
     const photographerContent = document.querySelector(".photographerContent");
+    mediaFactory.setMedia(photographer.id, data.media);
     mediaFactory.displayMediasContent(photographerContent);
+    
 
     contactForm(photographer);
     submitForm();
@@ -126,13 +128,96 @@ async function init() {
 
     mediaForLightbox.forEach((i, index) => i.addEventListener("click", () => {
 
-        let thisMedia = mediaFactory.mediasDatas[index];
-      
-        mediaFactory.createLightbox(thisMedia);
-
+        
         const lightboxMedia = document.querySelector(".lightboxMedia");
         
         const closeLightboxBtn = document.querySelector("svg");
+        
+
+        let thisMedia = mediaFactory.mediasDatas[index];
+        // Left events
+
+        document.addEventListener("keydown", leftKey)
+
+        function leftKey(event){
+            if(event.key === "ArrowLeft"){
+                if(index > 0){
+                    lightboxMedia.innerHTML = "";
+                    index-=1;
+                    thisMedia = mediaFactory.mediasDatas[index];
+                    mediaFactory.createLightbox(thisMedia);
+                    
+                }
+    
+                else if (index === 0) {
+    
+                    lightboxMedia.innerHTML = "" ;
+                    index = mediaForLightbox.length-1;
+                    thisMedia = mediaFactory.mediasDatas[index];
+                    mediaFactory.createLightbox(thisMedia);
+                }
+            }
+        }
+        left.addEventListener("click", () => {
+            if(index > 0){
+                lightboxMedia.innerHTML = "";
+                index-=1;
+                thisMedia = mediaFactory.mediasDatas[index];
+                mediaFactory.createLightbox(thisMedia);
+                
+            }
+
+            else if (index === 0) {
+
+                lightboxMedia.innerHTML = "" ;
+                index = mediaForLightbox.length-1;
+                thisMedia = mediaFactory.mediasDatas[index];
+                mediaFactory.createLightbox(thisMedia);
+            }
+           
+        });
+
+        // Right events
+        document.addEventListener("keydown", rightKey)
+
+        function rightKey(event){
+            if(event.key === "ArrowRight"){
+
+                if(index < mediaForLightbox.length-1) {
+                    lightboxMedia.innerHTML = "";
+                    index+=1;
+                    thisMedia = mediaFactory.mediasDatas[index];
+                    mediaFactory.createLightbox(thisMedia);
+                }
+                
+                else {
+                    lightboxMedia.innerHTML = "" ;
+                    index = 0;
+                    thisMedia = mediaFactory.mediasDatas[index];
+                    mediaFactory.createLightbox(thisMedia);
+                }
+            }
+
+        }
+
+        right.addEventListener("click", () => {
+            if(index < mediaForLightbox.length-1){
+                lightboxMedia.innerHTML = "";
+                index+=1;
+                thisMedia = mediaFactory.mediasDatas[index];
+                mediaFactory.createLightbox(thisMedia);
+            }
+
+            else {
+                lightboxMedia.innerHTML = "" ;
+                index = 0;
+                thisMedia = mediaFactory.mediasDatas[index];
+                mediaFactory.createLightbox(thisMedia);
+            }
+           
+        });
+
+        mediaFactory.createLightbox(thisMedia);
 
         closeLightboxBtn.addEventListener("click", (event) => {
             if(event.target) {
@@ -144,42 +229,19 @@ async function init() {
             }
         })
 
-        document.addEventListener("keydown", handleEscKey);
+        document.addEventListener("keydown", escape);
 
-        function handleEscKey(event) {
+        function escape(event) {
             if (event.key === "Escape") {
                 document.documentElement.scrollTop = i.offsetTop;
                 lightbox.style.display = "none";
                 body.style.overflow = "visible";
                 lightboxMedia.innerHTML = "";
-                document.removeEventListener("keydown", handleEscKey);
+                document.removeEventListener("keydown", escape);
             }
-        }
-        
-        left.addEventListener("click", () => {
-            console.log(("g"));
-            navigateMedia(-1);
-
-        });
-        right.addEventListener("click", () => {
-            console.log(("d"));
-            navigateMedia(1);
-
-        });
-
-        function navigateMedia(direction) {
-            lightboxMedia.innerHTML = "";
-            let newIndex = index + direction;
-
-            // Assurez-vous que l'index reste dans les limites du tableau
-
-            thisMedia = mediaFactory.mediasDatas[newIndex];
-            mediaFactory.createLightbox(thisMedia);
         }
 
     }))
 }
 
 init();
-
-
