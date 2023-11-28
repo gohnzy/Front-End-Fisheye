@@ -78,6 +78,15 @@ h1 {
   transition: 1s;
   border: 3px solid transparent;
 }
+.photographer_section article .divClick:focus {
+  cursor: pointer;
+}
+.photographer_section article .divClick:focus img {
+  transition: 0.5s;
+  border: 3px solid #D3573C;
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.05);
+  transform: rotate3d(1, 1, 0, 15deg) scale(1.05);
+}
 .photographer_section h3 {
   color: #D3573C;
   font-size: 17px;

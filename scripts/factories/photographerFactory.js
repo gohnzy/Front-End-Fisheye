@@ -37,14 +37,16 @@ export class PhotographerFactory {
             const article = document.createElement( 'article' );
             article.setAttribute('id', `${id}`);
     
-            const divClick = document.createElement('div');
+            const divClick = document.createElement('a');
             divClick.classList.add('divClick');
+            divClick.setAttribute("role", "link")
             divClick.addEventListener("click", () => {
                 location.href = `/photographer.html?id=${id}`;
             })
     
             const img = document.createElement('img');
             img.setAttribute('src', picture);
+            img.setAttribute("alt", name)
     
             divClick.appendChild(img);
     

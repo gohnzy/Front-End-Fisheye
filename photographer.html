@@ -22,7 +22,7 @@
 			<div class="modal">
 				<header class="modalHeader">
         </header>
-        <img src="assets/icons/close.svg" onclick="closeModal()" />
+        <img src="assets/icons/close.svg" alt="Fermer le formulaire de contact" onclick="closeModal()">
 				<form class="form">
 					<div class="formDiv">
             <div class="formData formFirst" data-error="Le prénom doit comporter au moins deux caractères" data-error-visible="false">
@@ -49,13 +49,15 @@
     </aside>
     <aside class="lightbox" aria-label="Diaporama des médias">
       <p class="left">      
-        <i class="fa-solid fa-chevron-left"></i>
+        <i class="fa-solid fa-chevron-left" title="Média précédent"></i>
       </p>
       <div class="lightboxMedia"></div>
       <p class="right">
-        <i class="fa-solid fa-chevron-right"></i>
+        <i class="fa-solid fa-chevron-right" title="Média suivant"></i>
       </p>
-      <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+      <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" aria-labelledby="closeTitre closeDescription">
+        <title id="closeTitre">Croix de fermeture</title>
+        <desc id="closeDescription">Fermer le formulaire de contact</desc>
         <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z"/>
         </svg>
     </aside>

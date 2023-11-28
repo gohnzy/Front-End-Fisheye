@@ -86,10 +86,12 @@ export class MediaFactory {
         if(image) {
             const image = document.createElement("img");
             image.setAttribute("src", file);
+            image.setAttribute("alt", title);
             media.appendChild(image);
         } else if(video) {
             const video = document.createElement("video");
-            video.setAttribute("controls", "")
+            video.setAttribute("controls", "");
+            video.setAttribute=("aria-label", title)
             const source = document.createElement("source");
             source.setAttribute("src", file);
             video.appendChild(source);
@@ -105,9 +107,9 @@ export class MediaFactory {
         const mediaLikes = document.createElement("p");
         mediaLikes.classList.add("mediaLikes");
         if (data.liked) {
-            mediaLikes.innerHTML = `${likes} <i class="liked fa-solid fa-heart" mediaId="${media.id}"></i>`;
+            mediaLikes.innerHTML = `${likes} <i class="liked fa-solid fa-heart" title="Button like" mediaId="${media.id}"></i>`;
         } else {
-            mediaLikes.innerHTML = `${likes} <i class="unliked fa-solid fa-heart" mediaId="${media.id}"></i>`;
+            mediaLikes.innerHTML = `${likes} <i class="unliked fa-solid fa-heart" title="Button like" mediaId="${media.id}"></i>`;
         }
         
         
@@ -122,7 +124,7 @@ export class MediaFactory {
         
         const toolTipLikes = document.createElement("div");
         toolTipLikes.classList.add("toolTipLikes");
-        toolTipLikes.innerHTML = `${this.totalLikes} <i class="fa-solid fa-heart"></i>`;
+        toolTipLikes.innerHTML = `${this.totalLikes} <i class="fa-solid fa-heart" aria-hidden="true"></i>`;
     
         const toolTipPrice = document.createElement("p");
         toolTipPrice.classList.add("toolTipPrice");
@@ -144,13 +146,13 @@ export class MediaFactory {
                     m.liked = true;
                     m.likes += 1;
                     this.totalLikes += 1;
-                    mediaLikesElement.innerHTML = `${m.likes} <i class="liked fa-solid fa-heart" mediaId="${m.id}"></i>`;
+                    mediaLikesElement.innerHTML = `${m.likes} <i class="liked fa-solid fa-heart" title="Button like" mediaId="${m.id}"></i>`;
 
                 } else {
                     m.liked = false;
                     m.likes -= 1;
                     this.totalLikes -= 1;
-                    mediaLikesElement.innerHTML = `${m.likes} <i class="unliked fa-solid fa-heart" mediaId="${m.id}"></i>`;
+                    mediaLikesElement.innerHTML = `${m.likes} <i class="unliked fa-solid fa-heart" title="Button like" mediaId="${m.id}"></i>`;
                 }        
             }
             
@@ -174,6 +176,7 @@ export class MediaFactory {
     
         if(image) {
             const imageDiv = document.createElement("img");
+            imageDiv.setAttribute("alt", title);
             file = `assets/photos/${photographerId}/${image}`;
             imageDiv.setAttribute("src", file);
             lightboxMedia.appendChild(imageDiv);
@@ -181,6 +184,7 @@ export class MediaFactory {
             file = `assets/photos/${photographerId}/${video}`;
             const videoDiv = document.createElement("video");
             videoDiv.setAttribute("controls", "");
+            videoDiv.setAttribute("aria-label", title)
             const source = document.createElement("source");
             source.setAttribute("src", file);     
             videoDiv.appendChild(source);

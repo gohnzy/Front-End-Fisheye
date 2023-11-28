@@ -5,7 +5,7 @@ export function displaySortMenu() {
     sortMenu.classList.add("sortMenu");
     sortMenu.innerHTML = `<h4>Trier par</h4>
     <ul class="dropdownMenu">
-        <i class="fa-solid fa-chevron-up"></i>
+        <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
         <li class="popularDiv">Popularité</li>
         <li class="dateDiv">Date</li>
         <li class="titleDiv">Titre</a></li>

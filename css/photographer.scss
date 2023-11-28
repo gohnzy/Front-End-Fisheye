@@ -9,15 +9,18 @@ $secondColor: #901c1c;
     overflow: hidden;
 }
 
-.photographerPages header img {
+#header img {
 
     margin-top: 30px;
 
-    &:hover {
-
+    &:hover, &:focus {
         cursor: pointer;
-        
-    
+        filter: opacity(0.65);
+        transition: 0.3s;
+    }
+
+    &:not(:hover), &:not(:focus) {
+        transition: 0.3s;
     }
 }
 
@@ -33,6 +36,7 @@ $secondColor: #901c1c;
     justify-content: space-between;
     align-items: center;
     position: relative;
+    box-sizing: border-box;
 
     & .photographer-infos {
 
@@ -77,7 +81,28 @@ $secondColor: #901c1c;
         border: none;
         background-color: #901C1C;
         border-radius: 5px;
-        cursor: pointer;
+        
+
+        &:hover {
+            cursor: pointer;
+            background-color: $mainColor;
+            border: 1px solid black;
+            transition: .15s;
+        }
+
+        &:not(:hover){
+            transition: .2s;
+        }
+
+        &:focus {
+            cursor: pointer;
+            background-color: $mainColor;
+            border: 1px solid black;
+            transition: .15s;
+        } 
+        &:not(:focus){
+            transition: .2s;
+        }
     }
 
     & .portraitDiv {
@@ -151,10 +176,16 @@ $secondColor: #901c1c;
                 text-shadow: 3px 3px 10px rgba($color: #000000, $alpha: 0.5);   
              }
 
+             &:focus {
+                cursor: pointer; 
+                color: lighten($color: $mainColor, $amount: 10%);
+                text-shadow: 3px 3px 10px rgba($color: #000000, $alpha: 0.5);   
+             }
+
         }
 
 
-        &:hover {
+        &:hover, &:focus {
             & :nth-child(3), :nth-child(4){
                 display: flex;
             }
@@ -177,7 +208,7 @@ $secondColor: #901c1c;
 
         }
 
-        &:not(:hover) i {
+        &:not(:hover) i, &:not(:focus) i {
             transition: 0.4s linear;
         }
 
@@ -234,13 +265,14 @@ $secondColor: #901c1c;
         -o-object-position: center;
            object-position: center;
        
-        &:hover {
+        &:hover, &:focus {
             transform: scale(1.03);
             transition: 0.5s;
+            box-shadow: 1px 1px 10px 3px rgba($color: $mainColor, $alpha: 0.3);
             cursor: pointer;
         }
 
-        &:not(:hover) {
+        &:not(:hover), &:not(:focus) {
             transition: 0.8s;
         }
     }
@@ -408,7 +440,13 @@ $secondColor: #901c1c;
         border: none;
         background-color: #901C1C;
         border-radius: 5px;
-        cursor: pointer;
+
+        &:hover, &:focus {
+            background-color: $mainColor;
+            box-shadow: 5px 5px 10px 10px rgba(000, 000, 000, 0.05);
+            border: 1px solid black;
+            cursor: pointer;
+        }
     }
 
     & img {
@@ -416,12 +454,12 @@ $secondColor: #901c1c;
         position: absolute;
         right: 30px;
         top: 60px;
-        &:hover {
+        &:hover, &:focus {
             transform: rotate(90deg);
             transition: ease-in-out 0.4s;
         }
     
-        &:not(:hover){
+        &:not(:hover), &:not(:focus){
             transition: ease-in-out .6s;
         }
     }
@@ -566,7 +604,7 @@ $secondColor: #901c1c;
         width: 7%;
         font-size: 55px;
         font-weight:900;
-        &:hover {
+        &:hover, &:focus {
             cursor: pointer;
             transform: translateX(-12px) scale(1.1);
             transition: ease-in-out .1s;
@@ -587,7 +625,7 @@ $secondColor: #901c1c;
         width: 7%;
         font-size: 55px;
         font-weight:900;
-        &:hover {
+        &:hover, &:focus {
             cursor: pointer;
             transform: translateX(12px) scale(1.1);
             transition: ease-in-out .1s;
@@ -595,7 +633,7 @@ $secondColor: #901c1c;
         }
     }
 
-    & .left:not(:hover), .right:not(:hover) {
+    & .left:not(:hover), .right:not(:hover), .left:not(:focus), .right:not(:focus) {
 
         transition: ease-in-out .2s;
         
@@ -640,14 +678,14 @@ $secondColor: #901c1c;
         z-index: 100;
         padding: 15px;
 
-        &:hover {
+        &:hover, &:focus {
             cursor: pointer;
             transform: rotate(90deg);
             transition: ease-in-out 0.4s;
             fill: $mainColor;
         }
     
-        &:not(:hover){
+        &:not(:hover), &:not(:focus){
             transition: ease-in-out .6s;
         }
     }
@@ -679,7 +717,7 @@ $secondColor: #901c1c;
         border-radius: 5px;
         box-shadow: 10px 10px 10px 10px rgba($color: #000000, $alpha: 0.05);
         
-        &:hover {
+        &:hover, &:focus {
             box-shadow: 10px 10px 10px 10px rgba($color: #000000, $alpha: 0.1);
             background-color: darken($color: $mainColor, $amount: 5);
         }
