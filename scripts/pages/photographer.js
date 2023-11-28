@@ -10,15 +10,14 @@ async function getDatas() {
     
     if(!response) {
         alert("Error 404");
-        return {}
+        return {};
     }
 
     return response.json();
 }
 
-// Function principale regroupant l'appel à toutes les autres fonctions
 async function init() {
-    const mediaFactory = new MediaFactory()
+    const mediaFactory = new MediaFactory();
     // Recupération des données 
     const id = new URLSearchParams(window.location.search).get('id');
     
@@ -42,186 +41,147 @@ async function init() {
     const photographerContent = document.querySelector(".photographerContent");
     mediaFactory.setMedia(photographer.id, data.media);
     mediaFactory.displayMediasContent(photographerContent);
-    
+    lightboxFunction(mediaFactory);
+    likeFunction(mediaFactory);
 
     contactForm(photographer);
     submitForm();
+
+    // DOM Elements for sorting 
     
     const dropdownMenu = document.querySelector(".dropdownMenu");
     const first = document.querySelector(".dropdownMenu :nth-child(2)");
     const second = document.querySelector(".dropdownMenu :nth-child(3)");
     const third = document.querySelector(".dropdownMenu :nth-child(4)");
 
+    document.querySelector(".popularDiv").addEventListener("click", () => {
+        mediaFactory.sortPopular();
+        mediaFactory.displayMediasContent(photographerContent);
+        lightboxFunction(mediaFactory);
+        likeFunction(mediaFactory);
+
+        if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "dateDiv"){
+            dropdownMenu.insertBefore(first, second);
+        } else if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "titleDiv") {
+            dropdownMenu.insertBefore(first, third);
+        }
+    });
+
+    // Sorting by date 
+    document.querySelector(".dateDiv").addEventListener("click", () => {
+        mediaFactory.sortDate();
+        mediaFactory.displayMediasContent(photographerContent);
+        lightboxFunction(mediaFactory);
+        likeFunction(mediaFactory);
+
+        if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "popularDiv"){
+            dropdownMenu.insertBefore(second, first);
+        } else if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "titleDiv"){
+            dropdownMenu.insertBefore(second, third);
+        }
+
+    });
+
+    // Sorting by title
+    document.querySelector(".titleDiv").addEventListener("click", () => {
+        mediaFactory.sortTitle();
+        mediaFactory.displayMediasContent(photographerContent);
+        lightboxFunction(mediaFactory);
+        likeFunction(mediaFactory);
+
+        if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "popularDiv"){
+            dropdownMenu.insertBefore(third, first);
+        } else if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "dateDiv"){
+            dropdownMenu.insertBefore(third, second);
+        }
+    });
+}
+
+function likeFunction(mediaFactory) {
+    const mediaLikes = document.querySelectorAll(".mediaLikes");
+    mediaLikes.forEach(m => m.addEventListener("click", (event) => {
+        mediaFactory.likeMedia(event);
+    }));
+}
+
+function lightboxFunction(mediaFactory) {
     const mediaForLightbox = document.querySelectorAll(".medias");
     const lightbox = document.querySelector(".lightbox");
     const body = document.querySelector("body");
     const left = document.querySelector(".left");
     const right = document.querySelector(".right");
 
-    const popularSort = document.querySelectorAll(".popularDiv");
-    popularSort.forEach(btn => btn.addEventListener("click", () => {
-        const photographerContent = document.querySelector('.photographerContent');
-
-        const nodes = [...photographerContent.childNodes];
-        nodes.sort(function (a, b) {
-            const likesA = a.children[1].children[1].outerText;
-            const likesB = b.children[1].children[1].outerText;
-            return likesB - likesA
-        })
-
-        nodes.forEach(n => photographerContent.appendChild(n));
-
-        if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "dateDiv"){
-            dropdownMenu.insertBefore(first, second);
-        }
-        else if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "titleDiv"){
-            dropdownMenu.insertBefore(first, third);
-        }
-    }));
-
-    // Sorting by date 
-    const dateSort = document.querySelectorAll(".dateDiv");
-    dateSort.forEach(btn => btn.addEventListener("click", () => {
-        const photographerContent = document.querySelector('.photographerContent');
-        const nodes = Array.prototype.slice.call(photographerContent.childNodes);
-
-        nodes.sort(function (a, b) {
-            const dateA = new Date(a.attributes.date.value);
-            const dateB = new Date(b.attributes.date.value);
-            return dateA - dateB
-        })
-        nodes.forEach(n => photographerContent.appendChild(n));
-
-        if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "popularDiv"){
-            dropdownMenu.insertBefore(second, first);
-        }
-        else if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "titleDiv"){
-            dropdownMenu.insertBefore(second, third);
-        }
-
-    }))
-
-    // Sorting by title
-    const titleSort = document.querySelectorAll(".titleDiv");
-    titleSort.forEach(btn => btn.addEventListener("click", () => {
-        const photographerContent = document.querySelector('.photographerContent');
-        const nodes = Array.prototype.slice.call(photographerContent.childNodes);
-        nodes.sort(function (a, b) {
-            const titleA = a.attributes.name.value;
-            const titleB = b.attributes.name.value;
-            if (titleA < titleB) {
-                return -1
-            }
-
-            return 0
-        })
-        nodes.forEach(n => photographerContent.appendChild(n));
-
-        if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "popularDiv"){
-            dropdownMenu.insertBefore(third, first);
-        }
-        else if(document.querySelector(".dropdownMenu :nth-child(2)").classList == "dateDiv"){
-            dropdownMenu.insertBefore(third, second);
-        }
-        
-    }));
-
-    mediaForLightbox.forEach((i, index) => i.addEventListener("click", () => {
-
-        
+    mediaForLightbox.forEach((i, index) => i.firstElementChild.addEventListener("click", () => {
         const lightboxMedia = document.querySelector(".lightboxMedia");
-        
         const closeLightboxBtn = document.querySelector("svg");
         
-
         let thisMedia = mediaFactory.mediasDatas[index];
-        // Left events
 
-        document.addEventListener("keydown", leftKey)
-
-        function leftKey(event){
-            if(event.key === "ArrowLeft"){
+        document.addEventListener("keydown", (event) => { 
+            if(event.key === "ArrowLeft") {
                 if(index > 0){
                     lightboxMedia.innerHTML = "";
                     index-=1;
                     thisMedia = mediaFactory.mediasDatas[index];
                     mediaFactory.createLightbox(thisMedia);
                     
-                }
-    
-                else if (index === 0) {
-    
+                } else if (index === 0) {
                     lightboxMedia.innerHTML = "" ;
                     index = mediaForLightbox.length-1;
                     thisMedia = mediaFactory.mediasDatas[index];
                     mediaFactory.createLightbox(thisMedia);
                 }
             }
-        }
+        });
+
         left.addEventListener("click", () => {
             if(index > 0){
                 lightboxMedia.innerHTML = "";
                 index-=1;
                 thisMedia = mediaFactory.mediasDatas[index];
                 mediaFactory.createLightbox(thisMedia);
-                
-            }
-
-            else if (index === 0) {
-
+            } else if (index === 0) {
                 lightboxMedia.innerHTML = "" ;
                 index = mediaForLightbox.length-1;
                 thisMedia = mediaFactory.mediasDatas[index];
                 mediaFactory.createLightbox(thisMedia);
             }
-           
         });
 
-        // Right events
-        document.addEventListener("keydown", rightKey)
-
-        function rightKey(event){
-            if(event.key === "ArrowRight"){
-
+        document.addEventListener("keydown", (event) => {
+            if(event.key === "ArrowRight") {
                 if(index < mediaForLightbox.length-1) {
                     lightboxMedia.innerHTML = "";
                     index+=1;
                     thisMedia = mediaFactory.mediasDatas[index];
                     mediaFactory.createLightbox(thisMedia);
-                }
-                
-                else {
+                } else {
                     lightboxMedia.innerHTML = "" ;
                     index = 0;
                     thisMedia = mediaFactory.mediasDatas[index];
                     mediaFactory.createLightbox(thisMedia);
                 }
             }
-
-        }
+        });
 
         right.addEventListener("click", () => {
-            if(index < mediaForLightbox.length-1){
+            if(index < mediaForLightbox.length-1) {
                 lightboxMedia.innerHTML = "";
                 index+=1;
                 thisMedia = mediaFactory.mediasDatas[index];
                 mediaFactory.createLightbox(thisMedia);
-            }
-
-            else {
+            } else {
                 lightboxMedia.innerHTML = "" ;
                 index = 0;
                 thisMedia = mediaFactory.mediasDatas[index];
                 mediaFactory.createLightbox(thisMedia);
             }
-           
         });
 
         mediaFactory.createLightbox(thisMedia);
 
         closeLightboxBtn.addEventListener("click", (event) => {
             if(event.target) {
-                
                 document.documentElement.scrollTop = i.offsetTop;
                 lightbox.style.display = "none";
                 body.style.overflow = "visible";
@@ -229,19 +189,16 @@ async function init() {
             }
         })
 
-        document.addEventListener("keydown", escape);
-
-        function escape(event) {
+        document.addEventListener("keydown", (event) => {
             if (event.key === "Escape") {
                 document.documentElement.scrollTop = i.offsetTop;
                 lightbox.style.display = "none";
                 body.style.overflow = "visible";
                 lightboxMedia.innerHTML = "";
-                document.removeEventListener("keydown", escape);
+                document.removeEventListener("keydown");
             }
-        }
-
-    }))
+        });
+    }));
 }
 
 init();

@@ -17,21 +17,21 @@ const formMessage = document.querySelector(".formMessage");
 function displayModal() {
 
 	modal.style.display = "block";
-    body.style.overflow = "hidden"
+    body.style.overflow = "hidden";
 
 }
 
 function closeModal() {
 
     modal.style.display = "none";
-    body.style.overflow = "visible"
+    body.style.overflow = "visible";
 }
 
 
 modal.addEventListener("click", (event) => {
 
     if(event.target === modal) {
-        closeModal()
+        closeModal();
     }
 
 })
@@ -51,7 +51,7 @@ let namesRegExp = new RegExp("[a-zA-ZÀ-ÖØ-öø-ÿ-' ]");
 let mailRegExp = new RegExp("^[a-z0-9.-_]+@[a-z0-9.-_]+\\.[a-z0-9.-_]+");
 
 function validateForm() {
-    let validate = true 
+    let validate = true;
 
     if(firstNameInput.value.length < 2 || !namesRegExp.test(firstNameInput.value)) {
         formFirst.setAttribute("data-error-visible", "true");
@@ -102,14 +102,13 @@ function submitForm() {
             Nom: nameInput.value,
             Email :emailInput.value,
             Message : messageInput.value,
-        }
+        };
 
         if(!validateForm()) {
             event.preventDefault();
             console.log(storeInputs);
 
-        }
-        else {
+        } else {
             event.preventDefault();
             modalHeader.style.display = "none";
             form.style.display = "none";
@@ -118,6 +117,6 @@ function submitForm() {
             console.log(storeInputs);
 
         }
-    })
+    });
 }
 

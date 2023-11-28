@@ -261,7 +261,7 @@ $secondColor: #901c1c;
         font-weight: 400;
         color: $secondColor;
         margin-top: 10px;
-        overflow: hidden;
+        overflow: visible;
         max-width: 350px;
         gap: 0;
 
@@ -649,6 +649,39 @@ $secondColor: #901c1c;
     
         &:not(:hover){
             transition: ease-in-out .6s;
+        }
+    }
+}
+
+.errNotFound {
+    display: block;
+    width: fit-content;
+    margin: auto;
+    position: relative;
+    top: 250px;
+    text-align: center;
+
+    & h1 {
+        margin: 0;
+    }
+
+    & a {
+        display: block;
+        width: fit-content;
+        margin: 30px auto auto auto;
+        padding: 15px 15px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 22px;
+        background-color: $mainColor;
+        color: white;
+        border: 1px solid $secondColor;
+        border-radius: 5px;
+        box-shadow: 10px 10px 10px 10px rgba($color: #000000, $alpha: 0.05);
+        
+        &:hover {
+            box-shadow: 10px 10px 10px 10px rgba($color: #000000, $alpha: 0.1);
+            background-color: darken($color: $mainColor, $amount: 5);
         }
     }
 }

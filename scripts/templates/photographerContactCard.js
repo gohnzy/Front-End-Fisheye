@@ -15,7 +15,7 @@ export function displayContactCard(photographer) {
     <h2>${city}, ${country}</h2><br>
     <h3>${tagline}</h3>`;
     const portraitDiv = document.createElement("div");
-    portraitDiv.classList.add("portraitDiv")
+    portraitDiv.classList.add("portraitDiv");
     const photographerPortrait = document.createElement("img");
     photographerPortrait.setAttribute("src", picture);
     photographerHeader.appendChild(photographerInfos);

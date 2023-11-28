@@ -1,6 +1,6 @@
 // Création DOM menu de tri
 export function displaySortMenu() {
-    const insertAfter = document.querySelector(".photographerHeader")
+    const insertAfter = document.querySelector(".photographerHeader");
     const sortMenu = document.createElement("div");
     sortMenu.classList.add("sortMenu");
     sortMenu.innerHTML = `<h4>Trier par</h4>

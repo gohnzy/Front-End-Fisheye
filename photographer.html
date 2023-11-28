@@ -9,16 +9,16 @@
     <title>Fisheye - photographe </title>
   </head>
   <body class="photographerPages">
-    <header id="header">
+    <header id="header" aria-label="Header de la page">
       <a href="./index.html">
         <img src="assets/images/logo.png" class="logo">
       </a>
     </header>
     <main class="mainSide">
-      <div class="photographerHeader"></div>
-      <div class="photographerContent" id="notSorted"></div>
+      <header class="photographerHeader" aria-label="Header de présentation du photoghraphe"></header>
+      <section class="photographerContent" id="notSorted"></section>
     </main>
-    <div id="contact_modal">
+    <aside id="contact_modal" aria-label="Formulaire de contact">
 			<div class="modal">
 				<header class="modalHeader">
         </header>
@@ -46,8 +46,8 @@
 				</form>
         <div class="sent">Votre message<br>a bien<br>été envoyé.</div>
 			</div>
-		</div>
-    <div class="lightbox">
+    </aside>
+    <aside class="lightbox" aria-label="Diaporama des médias">
       <p class="left">      
         <i class="fa-solid fa-chevron-left"></i>
       </p>
@@ -58,8 +58,9 @@
       <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
         <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z"/>
         </svg>
-    </div>
-    <div class="toolTip"></div>    <script type="module" src="/scripts/pages/photographer.js"></script>
+    </aside>
+    <aside class="toolTip" aria-label="Informations complémentaires du photoghraphe"></aside>    
+    <script type="module" src="/scripts/pages/photographer.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>
   </body>
 </html>

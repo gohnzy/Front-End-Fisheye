@@ -7,17 +7,15 @@ export class PhotographerFactory {
         await this.fetchPhotographersData();
     }
 
-
     async fetchPhotographersData() {
         let response = await fetch('data/photographers.json');
         
         if(!response) {
             alert("Error 404");
-            return {}
+            return {};
         }
 
         const data = await response.json();      
-          
         this.photographersDatas = data.photographers;
     }
 
@@ -42,11 +40,11 @@ export class PhotographerFactory {
             const divClick = document.createElement('div');
             divClick.classList.add('divClick');
             divClick.addEventListener("click", () => {
-                location.href = `/photographer.html?id=${id}`
+                location.href = `/photographer.html?id=${id}`;
             })
     
-            const img = document.createElement('img')
-            img.setAttribute('src', picture)
+            const img = document.createElement('img');
+            img.setAttribute('src', picture);
     
             divClick.appendChild(img);
     
@@ -55,7 +53,7 @@ export class PhotographerFactory {
     
             divClick.appendChild(h2);
     
-            const infoDiv = document.createElement('div')
+            const infoDiv = document.createElement('div');
             infoDiv.innerHTML = `<h3>${city}, ${country}</h3><br>
             <p><span>${tagline}<span><br><i>${price}€/jour</i></p>`;
     
@@ -65,6 +63,6 @@ export class PhotographerFactory {
             
             return (article);
         }
-        return { getUserCardDOM }
+        return { getUserCardDOM };
     }
 }

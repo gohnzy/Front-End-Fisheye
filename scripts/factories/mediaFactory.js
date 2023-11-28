@@ -13,12 +13,39 @@ export class MediaFactory {
     }
     
     setMedia(photographerId, medias) {
-        this.mediasDatas = medias.filter(m => String(m.photographerId) === String(photographerId))
-        
-        .sort(function (a,b) {
-            return b.likes - a.likes;
-        }); 
+        this.mediasDatas = medias.filter(m => String(m.photographerId) === String(photographerId));
+        this.sortPopular();
+    }
 
+    sortPopular() {
+        this.mediasDatas.sort(function (a, b) {
+            const likesA = a.likes;
+            const likesB = b.likes;
+
+            return likesB - likesA;
+        });
+    }
+
+    sortDate() {
+        this.mediasDatas.sort(function (a, b) {
+            const dateA = new Date(a.date);
+            const dateB = new Date(b.date);
+
+            return dateB - dateA;
+        });
+    }
+
+    sortTitle() {
+        this.mediasDatas.sort(function (a, b) {
+            const titleA = a.title;
+            const titleB = b.title;
+
+            if (titleA < titleB) {
+                return -1;
+            }
+
+            return 0;
+        });
     }
 
     setPrice(price) {
@@ -27,20 +54,21 @@ export class MediaFactory {
 
     setTotalLikes() {
         this.mediasDatas.forEach(m => {
-            this.totalLikes += m.likes
+            this.totalLikes += m.likes;
         });
     }
 
     displayMediasContent(section) {
+        section.innerHTML = "";
         this.mediasDatas.forEach(media => {
             section.appendChild(this.createMediaElement(media));
         });
     
-        this.displayToolTip()
+        this.displayToolTip();
     }
 
     createMediaElement(data) {
-        let {image, video, id, photographerId, title, date, likes} = data;
+        let {image, video, id, photographerId, title, likes} = data;
         let file;    
     
         if(image) {
@@ -51,19 +79,15 @@ export class MediaFactory {
             return null
         }
     
-        const media = document.createElement("div");
+        const media = document.createElement("article");
         media.classList.add("medias");
         media.setAttribute("id", id);
-        media.setAttribute("date", date);
-        media.setAttribute("name", title);
     
         if(image) {
             const image = document.createElement("img");
             image.setAttribute("src", file);
             media.appendChild(image);
-        }
-    
-        else if(video) {
+        } else if(video) {
             const video = document.createElement("video");
             video.setAttribute("controls", "")
             const source = document.createElement("source");
@@ -79,24 +103,13 @@ export class MediaFactory {
         mediaTitle.innerText = `${title}`;
         mediaText.appendChild(mediaTitle);
         const mediaLikes = document.createElement("p");
-        mediaLikes.classList.add("mediaLikes")
-        mediaLikes.innerHTML = `${likes} <i class="unliked fa-solid fa-heart"></i>`
-    
-        mediaLikes.addEventListener("click", () => {
-            if (mediaLikes.innerHTML === `${likes} <i class="unliked fa-solid fa-heart"></i>`) {
-                data.likes += 1;
-                this.totalLikes++
-                this.reRenderLikes(mediaLikes, data, '+');
-            }
-            else {
-                data.likes -= 1;
-                this.totalLikes--
-                this.reRenderLikes(mediaLikes, data, '-');
-            }
-    
-            this.displayToolTip()
-        });
-    
+        mediaLikes.classList.add("mediaLikes");
+        if (data.liked) {
+            mediaLikes.innerHTML = `${likes} <i class="liked fa-solid fa-heart" mediaId="${media.id}"></i>`;
+        } else {
+            mediaLikes.innerHTML = `${likes} <i class="unliked fa-solid fa-heart" mediaId="${media.id}"></i>`;
+        }
+        
         
         mediaText.appendChild(mediaLikes);
         media.appendChild(mediaText);
@@ -118,31 +131,51 @@ export class MediaFactory {
         toolTip.replaceChildren(toolTipLikes, toolTipPrice);
     }
 
-    reRenderLikes(target, media, operator)  {
-        if (operator === '-') {
-            target.innerHTML = `${media.likes} <i class="unliked fa-solid fa-heart"></i>`;
-        }
-        if (operator === '+') {
-            target.innerHTML = `${media.likes} <i class="liked fa-solid fa-heart"></i>`;
-        }
+    likeMedia(event) {
+        const mediaId = event.target.attributes["mediaid"].value;
+
+        const mediaElement = document.getElementById(mediaId);
+        const mediaLikesElement = mediaElement.querySelector(".mediaLikes");
+        const mediaDescription = mediaElement.querySelector(".mediaDescription");
+
+        this.mediasDatas.map(m => {
+            if (String(m.id) === mediaId) {
+                if (!m.liked) {
+                    m.liked = true;
+                    m.likes += 1;
+                    this.totalLikes += 1;
+                    mediaLikesElement.innerHTML = `${m.likes} <i class="liked fa-solid fa-heart" mediaId="${m.id}"></i>`;
+
+                } else {
+                    m.liked = false;
+                    m.likes -= 1;
+                    this.totalLikes -= 1;
+                    mediaLikesElement.innerHTML = `${m.likes} <i class="unliked fa-solid fa-heart" mediaId="${m.id}"></i>`;
+                }        
+            }
+            
+            return m;
+        });
+
+        mediaDescription.appendChild(mediaLikesElement);
+        mediaElement.appendChild(mediaDescription);
+        this.displayToolTip();
     }
 
     createLightbox(media) {
-
-        let {image, video, title, id, photographerId} = media
-
+        let {image, video, title, id, photographerId} = media;
         const body = document.querySelector("body");
         const top = document.getElementById("header");
 
         const lightbox = document.querySelector(".lightbox");
         const lightboxMedia = document.querySelector(".lightboxMedia");
 
-        let file;    
+        let file;
     
         if(image) {
             const imageDiv = document.createElement("img");
             file = `assets/photos/${photographerId}/${image}`;
-            imageDiv.setAttribute("src", file)
+            imageDiv.setAttribute("src", file);
             lightboxMedia.appendChild(imageDiv);
         } else if(video) {
             file = `assets/photos/${photographerId}/${video}`;
