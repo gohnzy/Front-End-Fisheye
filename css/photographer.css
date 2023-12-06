@@ -1,4 +1,8 @@
 @import url("style.css");
+.hidded {
+  display: none;
+}
+
 .mainSide {
   height: 100%;
   overflow: hidden;
@@ -124,7 +128,7 @@
   top: -10px;
   z-index: 5;
 }
-.sortMenu .dropdownMenu i {
+.sortMenu .dropdownMenu em {
   position: absolute;
   top: 22px;
   right: 12px;
@@ -165,12 +169,12 @@
   height: 1px;
   background-color: white;
 }
-.sortMenu .dropdownMenu:hover i {
+.sortMenu .dropdownMenu:hover em {
   color: #dc7b66;
   transform: rotate(180deg);
   transition: 0.3s linear;
 }
-.sortMenu .dropdownMenu:not(:hover) i {
+.sortMenu .dropdownMenu:not(:hover) em {
   transition: 0.4s linear;
 }
 .sortMenu .dropdownMenu:focus :nth-child(3), .sortMenu .dropdownMenu:focus :nth-child(4) {
@@ -186,12 +190,12 @@
   height: 1px;
   background-color: white;
 }
-.sortMenu .dropdownMenu:focus i {
+.sortMenu .dropdownMenu:focus em {
   color: #dc7b66;
   transform: rotate(180deg);
   transition: 0.3s linear;
 }
-.sortMenu .dropdownMenu:not(:focus) i {
+.sortMenu .dropdownMenu:not(:focus) em {
   transition: 0.4s linear;
 }
 .sortMenu .dropdownMenu :nth-child(2) {

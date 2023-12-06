@@ -112,9 +112,9 @@ export class MediaFactory {
 
         mediaLikes.classList.add("mediaLikes");
         if (data.liked) {
-            mediaLikes.innerHTML = `${likes} <i class="liked fa-solid fa-heart" title="Button like" mediaId="${media.id}"></i>`;
+            mediaLikes.innerHTML = `${likes} <em class="liked fa-solid fa-heart" title="Button like" aria-label="Vous avez aimé ce contenu" mediaId="${media.id}"></em>`;
         } else {
-            mediaLikes.innerHTML = `${likes} <i class="unliked fa-solid fa-heart" title="Button like" mediaId="${media.id}"></i>`;
+            mediaLikes.innerHTML = `${likes} <em class="unliked fa-solid fa-heart" title="Button like" aria-label="Vous n'aimez pas ce contenu" mediaId="${media.id}"></em>`;
         }
         
         
@@ -129,7 +129,7 @@ export class MediaFactory {
         
         const toolTipLikes = document.createElement("div");
         toolTipLikes.classList.add("toolTipLikes");
-        toolTipLikes.innerHTML = `${this.totalLikes} <i class="fa-solid fa-heart" aria-hidden="true"></i>`;
+        toolTipLikes.innerHTML = `${this.totalLikes} <em class="fa-solid fa-heart" aria-hidden="true"></em>`;
     
         const toolTipPrice = document.createElement("p");
         toolTipPrice.classList.add("toolTipPrice");
@@ -138,8 +138,8 @@ export class MediaFactory {
         toolTip.replaceChildren(toolTipLikes, toolTipPrice);
     }
 
-    likeMedia(event) {
-        const mediaId = event.target.attributes["mediaid"].value;
+    likeMedia(target) {
+        const mediaId = target.attributes["mediaid"].value;
 
         const mediaElement = document.getElementById(mediaId);
         const mediaLikesElement = mediaElement.querySelector(".mediaLikes");
@@ -151,13 +151,13 @@ export class MediaFactory {
                     m.liked = true;
                     m.likes += 1;
                     this.totalLikes += 1;
-                    mediaLikesElement.innerHTML = `${m.likes} <i class="liked fa-solid fa-heart" title="Button like" mediaId="${m.id}"></i>`;
+                    mediaLikesElement.innerHTML = `${m.likes} <em class="liked fa-solid fa-heart" title="Button like" aria-label="Vous avez aimé ce contenu" mediaId="${m.id}"></em>`;
 
                 } else {
                     m.liked = false;
                     m.likes -= 1;
                     this.totalLikes -= 1;
-                    mediaLikesElement.innerHTML = `${m.likes} <i class="unliked fa-solid fa-heart" title="Button like" mediaId="${m.id}"></i>`;
+                    mediaLikesElement.innerHTML = `${m.likes} <em class="unliked fa-solid fa-heart" title="Button like" aria-label="Vous n'aimez pas ce contenu" mediaId="${m.id}"></em>`;
                 }        
             }
             

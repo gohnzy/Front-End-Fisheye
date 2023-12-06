@@ -28,7 +28,9 @@ function tabindexRemoveContactModal() {
 }
 
 function displayModal() {
+    document.addEventListener("keydown", escModal);
 
+    document.documentElement.scrollTop = document.offsetTop;
     modal.style.display = "block";
     modal.setAttribute("aria-hidden", "false");
     body.style.overflow = "hidden";
@@ -46,7 +48,6 @@ function displayModal() {
 }
 
 function closeModal() {
-
     modal.style.display = "none";
     modal.setAttribute("aria-hidden", "true");
     body.style.overflow = "visible";
@@ -62,7 +63,6 @@ function closeModal() {
     
 }
 
-
 modal.addEventListener("click", (event) => {
 
     if(event.target === modal) {
@@ -70,6 +70,14 @@ modal.addEventListener("click", (event) => {
     }
 
 })
+
+
+function escModal(event) {
+    if(event.key === "Escape") {
+        closeModal();
+        document.removeEventListener("keydown", escModal);
+    }
+}
 
 function contactForm(data) {
     const {name} = data;

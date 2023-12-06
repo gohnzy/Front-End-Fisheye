@@ -2,7 +2,6 @@
 /* eslint-disable no-undef */
 import { MediaFactory } from '../factories/mediaFactory.js';
 import { displayContactCard } from '../templates/photographerContactCard.js';
-import { displaySortMenu } from '../templates/sortMenu.js';
 
 // Récupère les datas des photographes
 async function getDatas() {
@@ -17,6 +16,7 @@ async function getDatas() {
 }
 
 async function init() {
+
     const mediaFactory = new MediaFactory();
     // Recupération des données 
     const id = new URLSearchParams(window.location.search).get('id');
@@ -36,8 +36,6 @@ async function init() {
     mediaFactory.init(photographer.id, photographer.price, data.media);
 
     displayContactCard(photographer);
-    displaySortMenu();
-
     const photographerContent = document.querySelector(".photographerContent");
     mediaFactory.setMedia(photographer.id, data.media);
     mediaFactory.displayMediasContent(photographerContent);
@@ -95,14 +93,37 @@ async function init() {
             dropdownMenu.insertBefore(third, second);
         }
     });
+
+    mediaFactory.mediasDatas.forEach(m => {
+        document.getElementById(m.id).addEventListener('keypress', (event) => {
+            if (event.keyCode === 13) {
+                document.getElementById(m.id).firstElementChild.click();
+            }
+        });
+    });
 }
 
 function likeFunction(mediaFactory) {
     const mediaLikes = document.querySelectorAll(".mediaLikes");
-    mediaLikes.forEach(m => m.addEventListener("click", (event) => {
-        mediaFactory.likeMedia(event);
-    }));
+
+    mediaLikes.forEach(m => {
+        m.addEventListener("click", () => {
+            const increaseThisMediaLikes = m.querySelector(".fa-heart");
+            mediaFactory.likeMedia(increaseThisMediaLikes);
+        });
+
+        m.addEventListener("keydown", (event) => {
+            if (event.key === 'Enter') {
+                const increaseThisMediaLikes = m.querySelector(".fa-heart");
+                mediaFactory.likeMedia(increaseThisMediaLikes);
+                event.preventDefault();
+                m.focus();
+                m.removeEventListener("keydown", likeFunction)
+            }
+        });
+    });
 }
+
 let removeTabindexElements = [];
 let videosToClean = [];
 
@@ -123,86 +144,20 @@ function lightboxFunction(mediaFactory) {
     mediaForLightbox.forEach((i, index) => i.firstElementChild.addEventListener("click", () => {
         const lightboxMedia = document.querySelector(".lightboxMedia");
         const closeLightboxBtn = document.querySelector("svg");
-        
-        let thisMedia = mediaFactory.mediasDatas[index];
+        let handleKeyDown;
+        document.addEventListener("keydown", handleKeyDown);
 
-    
+        function addListeners() {
+            document.addEventListener("keydown", handleKeyDown);
+        }
 
-        tabindexRemoveLightbox();
+        function removeListeners() {
+            document.removeEventListener("keydown", handleKeyDown);
+        }
 
-        removeTabindexElements.forEach(element => {
-            element.removeAttribute("tabindex");
-        });
-        videosToClean.forEach(v => {
-            v.removeAttribute("controls");
-        });
-        
-
-        document.addEventListener("keydown", (event) => { 
-            if(event.key === "ArrowLeft") {
-                if(index > 0){
-                    lightboxMedia.innerHTML = "";
-                    index-=1;
-                    thisMedia = mediaFactory.mediasDatas[index];
-                    mediaFactory.createLightbox(thisMedia);
-                    
-                } else if (index === 0) {
-                    lightboxMedia.innerHTML = "" ;
-                    index = mediaForLightbox.length-1;
-                    thisMedia = mediaFactory.mediasDatas[index];
-                    mediaFactory.createLightbox(thisMedia);
-                }
-            }
-        });
-
-        left.addEventListener("click", () => {
-            if(index > 0){
-                lightboxMedia.innerHTML = "";
-                index-=1;
-                thisMedia = mediaFactory.mediasDatas[index];
-                mediaFactory.createLightbox(thisMedia);
-            } else if (index === 0) {
-                lightboxMedia.innerHTML = "" ;
-                index = mediaForLightbox.length-1;
-                thisMedia = mediaFactory.mediasDatas[index];
-                mediaFactory.createLightbox(thisMedia);
-            }
-        });
-
-        document.addEventListener("keydown", (event) => {
-            if(event.key === "ArrowRight") {
-                if(index < mediaForLightbox.length-1) {
-                    lightboxMedia.innerHTML = "";
-                    index+=1;
-                    thisMedia = mediaFactory.mediasDatas[index];
-                    mediaFactory.createLightbox(thisMedia);
-                } else {
-                    lightboxMedia.innerHTML = "" ;
-                    index = 0;
-                    thisMedia = mediaFactory.mediasDatas[index];
-                    mediaFactory.createLightbox(thisMedia);
-                }
-            }
-        });
-
-        right.addEventListener("click", () => {
-            if(index < mediaForLightbox.length-1) {
-                lightboxMedia.innerHTML = "";
-                index+=1;
-                thisMedia = mediaFactory.mediasDatas[index];
-                mediaFactory.createLightbox(thisMedia);
-            } else {
-                lightboxMedia.innerHTML = "" ;
-                index = 0;
-                thisMedia = mediaFactory.mediasDatas[index];
-                mediaFactory.createLightbox(thisMedia);
-            }
-        });
-
-        mediaFactory.createLightbox(thisMedia);
-
-        closeLightboxBtn.addEventListener("click", (event) => {
-            if(event.target) {
+        handleKeyDown = function(event) {
+            if (event.key === "Escape") {
+                removeListeners()
                 document.documentElement.scrollTop = i.offsetTop;
                 lightbox.style.display = "none";
                 body.style.overflow = "visible";
@@ -214,27 +169,105 @@ function lightboxFunction(mediaFactory) {
                 videosToClean.forEach(v => {
                     v.setAttribute("controls", "");
                 })
-            }
-        })
 
-        document.addEventListener("keydown", handleKeyDown);
-
-    function handleKeyDown(event) {
-        if (event.key === "Escape") {
-            document.documentElement.scrollTop = i.offsetTop;
-            lightbox.style.display = "none";
-            body.style.overflow = "visible";
-            lightboxMedia.innerHTML = "";
-            removeTabindexElements.forEach(element => {
-                element.setAttribute("tabindex", "0")
-            })
-        
-            videosToClean.forEach(v => {
-                v.setAttribute("controls", "");
-            })
-            document.removeEventListener("keydown", handleKeyDown);
+            } else if(event.key === "ArrowLeft") {
+                navigateLeft();
+            } else if(event.key === "ArrowRight") {
+                navigateRight()
+            } 
         }
-    }
+        addListeners()
+        let thisMedia = mediaFactory.mediasDatas[index];
+
+        tabindexRemoveLightbox();
+
+        removeTabindexElements.forEach(element => {
+            element.removeAttribute("tabindex");
+        });
+        videosToClean.forEach(v => {
+            v.removeAttribute("controls");
+        });
+
+
+        left.addEventListener("click", () => {
+            navigateLeft();
+        });
+        
+        left.addEventListener("keydown", (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                navigateLeft();
+            }
+        });
+        
+        function navigateLeft() {
+            if (index > 0) {
+                lightboxMedia.innerHTML = "";
+                index -= 1;
+                thisMedia = mediaFactory.mediasDatas[index];
+                mediaFactory.createLightbox(thisMedia);
+            } else if (index === 0) {
+                lightboxMedia.innerHTML = "";
+                index = mediaForLightbox.length - 1;
+                thisMedia = mediaFactory.mediasDatas[index];
+                mediaFactory.createLightbox(thisMedia);
+            }
+        }
+
+        right.addEventListener("click", () => {
+            navigateRight();
+        });
+        
+        right.addEventListener("keydown", (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                navigateRight();
+            }
+        });
+        
+        function navigateRight() {
+            if (index < mediaForLightbox.length - 1) {
+                lightboxMedia.innerHTML = "";
+                index += 1;
+                thisMedia = mediaFactory.mediasDatas[index];
+                mediaFactory.createLightbox(thisMedia);
+            } else {
+                lightboxMedia.innerHTML = "";
+                index = 0;
+                thisMedia = mediaFactory.mediasDatas[index];
+                mediaFactory.createLightbox(thisMedia);
+            }
+        }
+        
+        mediaFactory.createLightbox(thisMedia);
+
+        function closeLightbox() {
+            removeListeners()
+                document.documentElement.scrollTop = i.offsetTop;
+                lightbox.style.display = "none";
+                body.style.overflow = "visible";
+                lightboxMedia.innerHTML = "";
+                removeTabindexElements.forEach(element => {
+                    element.setAttribute("tabindex", "0")
+                })
+            
+                videosToClean.forEach(v => {
+                    v.setAttribute("controls", "");
+                })
+        }
+        closeLightboxBtn.addEventListener("click", (event) => {
+            if(event.target) {
+                removeListeners();
+                closeLightbox();
+            }
+        });
+
+        closeLightboxBtn.addEventListener("keydown", (event) => {
+            if(event.key === 'Enter') {
+                removeListeners();
+                closeLightbox();
+            }
+        });
     }));
 }
 
