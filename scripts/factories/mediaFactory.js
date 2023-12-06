@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars */
+
+// Factory pour la page du photographe
 export class MediaFactory {
     mediasDatas = [];
     totalLikes = 0;
@@ -12,11 +14,15 @@ export class MediaFactory {
         this.setTotalLikes();
     }
     
+    // Selection des medias 
     setMedia(photographerId, medias) {
         this.mediasDatas = medias.filter(m => String(m.photographerId) === String(photographerId));
         this.sortPopular();
     }
 
+    // Tris
+
+    // par popularité
     sortPopular() {
         this.mediasDatas.sort(function (a, b) {
             const likesA = a.likes;
@@ -26,6 +32,7 @@ export class MediaFactory {
         });
     }
 
+    // par date
     sortDate() {
         this.mediasDatas.sort(function (a, b) {
             const dateA = new Date(a.date);
@@ -35,6 +42,7 @@ export class MediaFactory {
         });
     }
 
+    // par titre
     sortTitle() {
         this.mediasDatas.sort(function (a, b) {
             const titleA = a.title;
@@ -58,6 +66,7 @@ export class MediaFactory {
         });
     }
 
+    // Affichage du DOM
     displayMediasContent(section) {
         section.innerHTML = "";
         this.mediasDatas.forEach(media => {
@@ -67,6 +76,7 @@ export class MediaFactory {
         this.displayToolTip();
     }
 
+    // Création des données et génération DOM
     createMediaElement(data) {
         let {image, video, id, photographerId, title, likes} = data;
         let file;    

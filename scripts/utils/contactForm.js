@@ -1,23 +1,34 @@
 /* eslint-disable no-unused-vars */
 
+// DOM Elements
+
+// Modal
 const modal = document.getElementById("contact_modal");
 const body = document.querySelector("body");
 
+// Inputs
 const firstNameInput = document.getElementById("firstName");
 const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const messageInput = document.getElementById("message");
 
+// Boutons
 const submitBtn = document.querySelector(".submit");
-
 const closeModalBtn = document.querySelector(".closeModal");
 
+// Div inputs/label
 const formFirst = document.querySelector(".formFirst");
 const formName = document.querySelector(".formName");
 const formEmail = document.querySelector(".formEmail");
 const formMessage = document.querySelector(".formMessage");
 
+
+// Variables pour stocker les éléments à modifier
+
+// Éléments dont l'attribut tabindex doit être supprimé
 let removeTabindexElements = [];
+
+// Éléments dont enlevé l'attribut controls (pour supprimer le focus)
 let videosToClean = [];
 
 function tabindexRemoveContactModal() {
@@ -27,6 +38,8 @@ function tabindexRemoveContactModal() {
     videosToClean = Array.from(videos);
 }
 
+
+// Ouverture de la modale
 function displayModal() {
     document.addEventListener("keydown", escModal);
 
@@ -47,6 +60,7 @@ function displayModal() {
 
 }
 
+// Fermeture de la modale
 function closeModal() {
     modal.style.display = "none";
     modal.setAttribute("aria-hidden", "true");
@@ -79,6 +93,7 @@ function escModal(event) {
     }
 }
 
+// Création de l'en-tête du formulaire
 function contactForm(data) {
     const {name} = data;
     const modalHeader = document.querySelector(".modalHeader");
@@ -93,6 +108,7 @@ function contactForm(data) {
 let namesRegExp = new RegExp("[a-zA-ZÀ-ÖØ-öø-ÿ-' ]");
 let mailRegExp = new RegExp("^[a-z0-9.-_]+@[a-z0-9.-_]+\\.[a-z0-9.-_]+");
 
+// Validation du form ; tous les champs doivent être renseignés
 function validateForm() {
     let validate = true;
 
@@ -132,6 +148,7 @@ function validateForm() {
     return validate
 }
 
+// Envoi du formulaire (factice pour le moment, données récupérées dans la console)
 function submitForm() {
     
     const modalHeader = document.querySelector(".modalHeader");

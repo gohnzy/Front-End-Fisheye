@@ -1,3 +1,4 @@
+// Factory pour la page d'acceuil / liste des photographes
 export class PhotographerFactory {
     photographersDatas = [];
 
@@ -7,6 +8,7 @@ export class PhotographerFactory {
         await this.fetchPhotographersData();
     }
 
+    // Récupération des données depuis le .json
     async fetchPhotographersData() {
         let response = await fetch('data/photographers.json');
         
@@ -19,6 +21,7 @@ export class PhotographerFactory {
         this.photographersDatas = data.photographers;
     }
 
+    // Affichage du DOM
     displayData(section) {
         this.photographersDatas.forEach(photographer => {
             const photographerModel = this.photographerTemplate(photographer);
@@ -27,6 +30,7 @@ export class PhotographerFactory {
         });
     }
 
+    // Création du DOM
     photographerTemplate(data) {
         const { name, id, city, country, tagline, price, portrait} = data;
     

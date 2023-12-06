@@ -2,9 +2,14 @@
 import { PhotographerFactory } from '../factories/photographerFactory.js';
 
 async function init() {
+
+    // Nouvelle instance de la class
     const photographerFactory = new PhotographerFactory();
+
+    // DOM Elements 
     const photographersSection = document.querySelector(".photographer_section");
 
+    // Class : fonction principale
     await photographerFactory.init();
 
     photographerFactory.displayData(photographersSection);
