@@ -8,6 +8,9 @@ async function init() {
     await photographerFactory.init();
 
     photographerFactory.displayData(photographersSection);
+    let index = 1;
+
+    document.querySelectorAll(".divClick").forEach(photographer => photographer.setAttribute("tabindex", index++));
 }
 
 init();

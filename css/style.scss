@@ -45,8 +45,8 @@ h1 {
 .photographer_section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 70px;
-    margin-top: 50px;
+    gap: 50px;
+    margin-top: 40px;
 
     & article {
 
@@ -62,6 +62,15 @@ h1 {
         }
 
         & .divClick {
+
+            text-decoration: none;
+            padding: 10px 10px 0px 10px;
+            border-radius: 5px; 
+            
+            &:focus {
+
+                outline: 2px solid $secondColor;
+            }
 
             & h2 {
 
@@ -112,9 +121,10 @@ h1 {
         & h3 {
             color: $mainColor;
             font-size: 17px;
+            padding-bottom: 15px;
         }
 
-        & span {
+        & p {
 
             font-size: 13px;
             font-weight: 400;

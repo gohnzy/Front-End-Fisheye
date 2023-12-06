@@ -177,7 +177,6 @@ $secondColor: #901c1c;
              }
 
              &:focus {
-                cursor: pointer; 
                 color: lighten($color: $mainColor, $amount: 10%);
                 text-shadow: 3px 3px 10px rgba($color: #000000, $alpha: 0.5);   
              }
@@ -185,7 +184,7 @@ $secondColor: #901c1c;
         }
 
 
-        &:hover, &:focus {
+        &:hover {
             & :nth-child(3), :nth-child(4){
                 display: flex;
             }
@@ -208,11 +207,36 @@ $secondColor: #901c1c;
 
         }
 
-        &:not(:hover) i, &:not(:focus) i {
+        &:not(:hover) i {
             transition: 0.4s linear;
         }
 
-        
+        &:focus {
+            & :nth-child(3), :nth-child(4){
+                display: flex;
+            }
+            & :nth-child(2)::after, 
+              :nth-child(3)::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 10%; 
+                    width: 80%; 
+                    height: 1px; 
+                    background-color: white; 
+            }
+            & i {
+                color: lighten($color: $mainColor, $amount: 10%);
+
+                transform: rotate(180deg);
+                transition: 0.3s linear;
+            }
+
+        }
+
+        &:not(:focus) i {
+            transition: 0.4s linear;
+        }
 
         & :nth-child(2) {
 
@@ -264,8 +288,16 @@ $secondColor: #901c1c;
            object-fit: cover;
         -o-object-position: center;
            object-position: center;
+
+           &:focus {
+            outline: 3px solid $mainColor;
+            transform: scale(1.03);
+  
+            box-shadow: 1px 1px 10px 3px rgba($color: $mainColor, $alpha: 0.3);
+           }
+           
        
-        &:hover, &:focus {
+        &:hover{
             transform: scale(1.03);
             transition: 0.5s;
             box-shadow: 1px 1px 10px 3px rgba($color: $mainColor, $alpha: 0.3);
@@ -354,6 +386,11 @@ $secondColor: #901c1c;
 
         & .mediaLikes:hover {
             cursor: pointer;
+        }
+
+        & .mediaLikes:focus {
+            outline: 2px solid $mainColor;
+            border-radius: 5px;
         }
     }
 }

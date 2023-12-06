@@ -149,15 +149,34 @@
   text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
 }
 .sortMenu .dropdownMenu li:focus {
-  cursor: pointer;
   color: #dc7b66;
   text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
 }
-.sortMenu .dropdownMenu:hover :nth-child(3), .sortMenu .dropdownMenu:hover :nth-child(4), .sortMenu .dropdownMenu:focus :nth-child(3), .sortMenu .dropdownMenu:focus :nth-child(4) {
+.sortMenu .dropdownMenu:hover :nth-child(3), .sortMenu .dropdownMenu:hover :nth-child(4) {
   display: flex;
 }
 .sortMenu .dropdownMenu:hover :nth-child(2)::after,
-.sortMenu .dropdownMenu:hover :nth-child(3)::after, .sortMenu .dropdownMenu:focus :nth-child(2)::after,
+.sortMenu .dropdownMenu:hover :nth-child(3)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background-color: white;
+}
+.sortMenu .dropdownMenu:hover i {
+  color: #dc7b66;
+  transform: rotate(180deg);
+  transition: 0.3s linear;
+}
+.sortMenu .dropdownMenu:not(:hover) i {
+  transition: 0.4s linear;
+}
+.sortMenu .dropdownMenu:focus :nth-child(3), .sortMenu .dropdownMenu:focus :nth-child(4) {
+  display: flex;
+}
+.sortMenu .dropdownMenu:focus :nth-child(2)::after,
 .sortMenu .dropdownMenu:focus :nth-child(3)::after {
   content: "";
   position: absolute;
@@ -167,12 +186,12 @@
   height: 1px;
   background-color: white;
 }
-.sortMenu .dropdownMenu:hover i, .sortMenu .dropdownMenu:focus i {
+.sortMenu .dropdownMenu:focus i {
   color: #dc7b66;
   transform: rotate(180deg);
   transition: 0.3s linear;
 }
-.sortMenu .dropdownMenu:not(:hover) i, .sortMenu .dropdownMenu:not(:focus) i {
+.sortMenu .dropdownMenu:not(:focus) i {
   transition: 0.4s linear;
 }
 .sortMenu .dropdownMenu :nth-child(2) {
@@ -218,7 +237,12 @@
   -o-object-position: center;
   object-position: center;
 }
-.photographerContent img:hover, .photographerContent img:focus, .photographerContent video:hover, .photographerContent video:focus {
+.photographerContent img:focus, .photographerContent video:focus {
+  outline: 3px solid #D3573C;
+  transform: scale(1.03);
+  box-shadow: 1px 1px 10px 3px rgba(211, 87, 60, 0.3);
+}
+.photographerContent img:hover, .photographerContent video:hover {
   transform: scale(1.03);
   transition: 0.5s;
   box-shadow: 1px 1px 10px 3px rgba(211, 87, 60, 0.3);
@@ -286,6 +310,10 @@
 }
 .photographerContent .mediaDescription .mediaLikes:hover {
   cursor: pointer;
+}
+.photographerContent .mediaDescription .mediaLikes:focus {
+  outline: 2px solid #D3573C;
+  border-radius: 5px;
 }
 
 .toolTip {

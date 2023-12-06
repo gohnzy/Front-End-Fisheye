@@ -87,11 +87,13 @@ export class MediaFactory {
             const image = document.createElement("img");
             image.setAttribute("src", file);
             image.setAttribute("alt", title);
+            image.setAttribute("tabindex", "0");
             media.appendChild(image);
         } else if(video) {
             const video = document.createElement("video");
             video.setAttribute("controls", "");
-            video.setAttribute=("aria-label", title)
+            video.setAttribute("aria-label", title);
+            video.setAttribute("tabindex", "0");
             const source = document.createElement("source");
             source.setAttribute("src", file);
             video.appendChild(source);
@@ -105,6 +107,9 @@ export class MediaFactory {
         mediaTitle.innerText = `${title}`;
         mediaText.appendChild(mediaTitle);
         const mediaLikes = document.createElement("p");
+        mediaLikes.setAttribute("tabindex", "0");
+        mediaLikes.setAttribute("aria-label", "Aimer le contenu !");
+
         mediaLikes.classList.add("mediaLikes");
         if (data.liked) {
             mediaLikes.innerHTML = `${likes} <i class="liked fa-solid fa-heart" title="Button like" mediaId="${media.id}"></i>`;

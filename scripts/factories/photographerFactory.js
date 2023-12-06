@@ -39,14 +39,13 @@ export class PhotographerFactory {
     
             const divClick = document.createElement('a');
             divClick.classList.add('divClick');
-            divClick.setAttribute("role", "link")
-            divClick.addEventListener("click", () => {
-                location.href = `/photographer.html?id=${id}`;
-            })
+            divClick.setAttribute("role", "link");
+            divClick.setAttribute("href",`/photographer.html?id=${id}`)
+            divClick.setAttribute("aria-label", `Profil de ${name}`)
     
             const img = document.createElement('img');
             img.setAttribute('src', picture);
-            img.setAttribute("alt", name)
+            img.setAttribute("alt", name);
     
             divClick.appendChild(img);
     
@@ -56,8 +55,8 @@ export class PhotographerFactory {
             divClick.appendChild(h2);
     
             const infoDiv = document.createElement('div');
-            infoDiv.innerHTML = `<h3>${city}, ${country}</h3><br>
-            <p><span>${tagline}<span><br><i>${price}€/jour</i></p>`;
+            infoDiv.innerHTML = `<h3>${city}, ${country}</h3>
+            <p>${tagline}<br><i>${price}€/jour</i></p>`;
     
             article.appendChild(divClick);
             

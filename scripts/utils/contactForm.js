@@ -8,23 +8,58 @@ const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const messageInput = document.getElementById("message");
 
+const submitBtn = document.querySelector(".submit");
+
+const closeModalBtn = document.querySelector(".closeModal");
 
 const formFirst = document.querySelector(".formFirst");
 const formName = document.querySelector(".formName");
 const formEmail = document.querySelector(".formEmail");
 const formMessage = document.querySelector(".formMessage");
 
+let removeTabindexElements = [];
+let videosToClean = [];
+
+function tabindexRemoveContactModal() {
+    const elementsToClean = document.querySelectorAll("[tabindex]:not(#contact_modal [tabindex])");
+    removeTabindexElements = Array.from(elementsToClean);
+    const videos = document.querySelectorAll("video");
+    videosToClean = Array.from(videos);
+}
+
 function displayModal() {
 
-	modal.style.display = "block";
+    modal.style.display = "block";
+    modal.setAttribute("aria-hidden", "false");
     body.style.overflow = "hidden";
+    body.setAttribute("aria-hidden", "true");
+
+    tabindexRemoveContactModal();
+
+    removeTabindexElements.forEach(element => {
+        element.removeAttribute("tabindex");
+    });
+    videosToClean.forEach(v => {
+        v.removeAttribute("controls");
+    });
 
 }
 
 function closeModal() {
 
     modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
     body.style.overflow = "visible";
+    body.setAttribute("aria-hidden", "false");
+
+    removeTabindexElements.forEach(element => {
+        element.setAttribute("tabindex", "0")
+    })
+
+    videosToClean.forEach(v => {
+        v.setAttribute("controls", "");
+    })
+    
 }
 
 

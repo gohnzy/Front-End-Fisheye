@@ -103,6 +103,15 @@ function likeFunction(mediaFactory) {
         mediaFactory.likeMedia(event);
     }));
 }
+let removeTabindexElements = [];
+let videosToClean = [];
+
+function tabindexRemoveLightbox() {
+    const elementsToClean = document.querySelectorAll("[tabindex]:not(.lightbox [tabindex])");
+    removeTabindexElements = Array.from(elementsToClean);
+    const videos = document.querySelectorAll("video");
+    videosToClean = Array.from(videos);
+}
 
 function lightboxFunction(mediaFactory) {
     const mediaForLightbox = document.querySelectorAll(".medias");
@@ -116,6 +125,18 @@ function lightboxFunction(mediaFactory) {
         const closeLightboxBtn = document.querySelector("svg");
         
         let thisMedia = mediaFactory.mediasDatas[index];
+
+    
+
+        tabindexRemoveLightbox();
+
+        removeTabindexElements.forEach(element => {
+            element.removeAttribute("tabindex");
+        });
+        videosToClean.forEach(v => {
+            v.removeAttribute("controls");
+        });
+        
 
         document.addEventListener("keydown", (event) => { 
             if(event.key === "ArrowLeft") {
@@ -186,18 +207,34 @@ function lightboxFunction(mediaFactory) {
                 lightbox.style.display = "none";
                 body.style.overflow = "visible";
                 lightboxMedia.innerHTML = "";
+                removeTabindexElements.forEach(element => {
+                    element.setAttribute("tabindex", "0")
+                })
+            
+                videosToClean.forEach(v => {
+                    v.setAttribute("controls", "");
+                })
             }
         })
 
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Escape") {
-                document.documentElement.scrollTop = i.offsetTop;
-                lightbox.style.display = "none";
-                body.style.overflow = "visible";
-                lightboxMedia.innerHTML = "";
-                document.removeEventListener("keydown");
-            }
-        });
+        document.addEventListener("keydown", handleKeyDown);
+
+    function handleKeyDown(event) {
+        if (event.key === "Escape") {
+            document.documentElement.scrollTop = i.offsetTop;
+            lightbox.style.display = "none";
+            body.style.overflow = "visible";
+            lightboxMedia.innerHTML = "";
+            removeTabindexElements.forEach(element => {
+                element.setAttribute("tabindex", "0")
+            })
+        
+            videosToClean.forEach(v => {
+                v.setAttribute("controls", "");
+            })
+            document.removeEventListener("keydown", handleKeyDown);
+        }
+    }
     }));
 }
 
