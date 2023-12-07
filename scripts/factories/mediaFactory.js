@@ -170,8 +170,9 @@ export class MediaFactory {
                     mediaLikesElement.innerHTML = `${m.likes} <em class="unliked fa-solid fa-heart" title="Button like" aria-label="Vous n'aimez pas ce contenu" mediaId="${m.id}"></em>`;
                 }        
             }
-            
+            console.log(m);
             return m;
+            
         });
 
         mediaDescription.appendChild(mediaLikesElement);

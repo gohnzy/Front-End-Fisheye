@@ -57,7 +57,6 @@ async function init() {
     submitForm();
 
     // DOM Elements pour le tri 
-    
     const dropdownMenu = document.querySelector(".dropdownMenu");
     const first = document.querySelector(".dropdownMenu :nth-child(2)");
     const second = document.querySelector(".dropdownMenu :nth-child(3)");
@@ -110,8 +109,8 @@ async function init() {
     });
 
     mediaFactory.mediasDatas.forEach(m => {
-        document.getElementById(m.id).addEventListener('keypress', (event) => {
-            if (event.keyCode === 13) {
+        document.getElementById(m.id).addEventListener('keydown', (event) => {
+            if (event.key === 13) {
                 document.getElementById(m.id).firstElementChild.click();
             }
         });
