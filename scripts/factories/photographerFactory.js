@@ -1,4 +1,4 @@
-// Factory pour la page d'acceuil / liste des photographes
+// Factory pour la page d'accueil / liste des photographes
 export class PhotographerFactory {
     photographersDatas = [];
 
