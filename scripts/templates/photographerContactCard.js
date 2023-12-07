@@ -7,6 +7,8 @@ export function displayContactCard(photographer) {
     const btnModal = document.createElement("button");
     btnModal.classList.add("openModal");
     btnModal.setAttribute("onclick", "displayModal()");
+    btnModal.setAttribute("tabindex", "0");
+    btnModal.setAttribute("role", "dialog");
     btnModal.innerText="Contactez-moi";
     const photographerInfos = document.createElement("div");
     photographerInfos.classList.add("photographer-infos");

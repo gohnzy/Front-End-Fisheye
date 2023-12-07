@@ -39,8 +39,8 @@ h1 {
 .photographer_section {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 70px;
-  margin-top: 50px;
+  gap: 50px;
+  margin-top: 40px;
 }
 .photographer_section article {
   justify-self: center;
@@ -52,6 +52,14 @@ h1 {
 }
 .photographer_section article div * {
   margin: 0;
+}
+.photographer_section article .divClick {
+  text-decoration: none;
+  padding: 10px 10px 0px 10px;
+  border-radius: 5px;
+}
+.photographer_section article .divClick:focus {
+  outline: 2px solid #901c1c;
 }
 .photographer_section article .divClick h2 {
   color: #D3573C;
@@ -90,12 +98,13 @@ h1 {
 .photographer_section h3 {
   color: #D3573C;
   font-size: 17px;
+  padding-bottom: 15px;
 }
-.photographer_section span {
+.photographer_section p {
   font-size: 13px;
   font-weight: 400;
 }
-.photographer_section i {
+.photographer_section em {
   font-size: 12px;
   font-weight: 400;
   color: #757575;

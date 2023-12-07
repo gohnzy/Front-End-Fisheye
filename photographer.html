@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8">
@@ -8,56 +8,67 @@
     <script src="https://kit.fontawesome.com/550bae5c8f.js" crossorigin="anonymous"></script>
     <title>Fisheye - photographe </title>
   </head>
-  <body class="photographerPages">
+  <body class="photographerPages" aria-hidden="false">
     <header id="header" aria-label="Header de la page">
-      <a href="./index.html">
+      <a href="./index.html" role="link" aria-label="Retour à la page d'acceuil" tabindex="1">
         <img src="assets/images/logo.png" class="logo" alt="Logo Fisheye">
       </a>
     </header>
     <main class="mainSide">
       <header class="photographerHeader" aria-label="Header de présentation du photoghraphe"></header>
+      <div class="sortMenu">
+        <h4>Trier par</h4>
+        <ul class="dropdownMenu" tabindex="0">
+            <em class="fa-solid fa-chevron-up" aria-hidden="true"></em>
+            <li class="popularDiv" tabindex="0">Popularité</li>
+            <li class="dateDiv" tabindex="0">Date</li>
+            <li class="titleDiv" tabindex="0">Titre</a></li>
+        </ul>
+      </div>
       <section class="photographerContent" id="notSorted"></section>
     </main>
-    <aside id="contact_modal" aria-label="Formulaire de contact">
+    <aside id="contact_modal" aria-label="Formulaire de contact" aria-hidden="true">
 			<div class="modal">
 				<header class="modalHeader">
         </header>
-        <img src="assets/icons/close.svg" alt="Fermer le formulaire de contact" onclick="closeModal()">
-				<form class="form">
+        <img class="closeModal" src="assets/icons/close.svg" alt="Fermer le formulaire de contact" onclick="closeModal()" tabindex="0">
+				<form class="form" novalidate>
 					<div class="formDiv">
             <div class="formData formFirst" data-error="Le prénom doit comporter au moins deux caractères" data-error-visible="false">
               <label for="firstName">Prénom</label>
-						  <input type="text" id="firstName">
+						  <input type="text" id="firstName" tabindex="0" aria-labelledby="Prénom" aria-describedby="Format texte" required>
             </div>
             <div class="formData formName" data-error="Le nom doit comporter au moins deux caractères" data-error-visible="false">
               <label for="name">Nom</label>
-              <input type="text" id="name">
+              <input type="text" id="name" tabindex="0" aria-labelledby="Nom" aria-describedby="Format texte" required>
             </div>
             <div class="formData formEmail" data-error="L'adresse mail n'est pas valide" data-error-visible="false">
               <label for="email">Email</label>
-              <input type="email" id="email">
+              <input type="email" id="email" tabindex="0" aria-labelledby="Email" aria-describedby="Format adresse mail" required>
             </div>
             <div class="formData formMessage" data-error="Veuillez entrer un brève déscription de votre demande" data-error-visible="false">
               <label for="message">Votre message</label>
-              <textarea name="message" id="message" cols="0" rows="5" maxlength="300"></textarea>
+              <textarea name="message" id="message" cols="1" rows="5" maxlength="300" tabindex="0" aria-labelledby="Message" aria-describedby="Format texte" required></textarea>
             </div>
-            <input type="submit" class="submit" id="submitForm">
+            <div>
+              <label for="submitForm" class="hidded">Envoyer</label>
+              <input type="submit" class="submit" id="submitForm" tabindex="0" aria-labelledby="Envoyer" aria-describedby="Format bouton" value="Envoyer">
+            </div>  
 					</div>
 				</form>
-        <div class="sent">Votre message<br>a bien<br>été envoyé.</div>
+        <h3 class="sent">Votre message<br>a bien<br>été envoyé.</h3>
 			</div>
     </aside>
     <aside class="lightbox" aria-label="Diaporama des médias">
-      <p class="left">      
-        <i class="fa-solid fa-chevron-left" title="Média précédent"></i>
+      <p class="left"  tabindex="0">      
+        <em class="fa-solid fa-chevron-left" aria-label="Media Précédent"></em>
       </p>
       <div class="lightboxMedia"></div>
-      <p class="right">
-        <i class="fa-solid fa-chevron-right" title="Média suivant"></i>
+      <p class="right"  tabindex="0">
+        <em class="fa-solid fa-chevron-right" aria-label="Media Suivant"></em>
       </p>
-      <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" aria-labelledby="closeTitre closeDescription">
-        <title id="closeTitre">Croix de fermeture</title>
-        <desc id="closeDescription">Fermer le formulaire de contact</desc>
+      <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" aria-labelledby="close modal" tabindex="0">
+        <title id="close modal">Croix de fermeture</title>
         <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z"/>
         </svg>
     </aside>

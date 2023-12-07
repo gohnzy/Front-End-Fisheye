@@ -1,3 +1,4 @@
+// Factory pour la page d'acceuil / liste des photographes
 export class PhotographerFactory {
     photographersDatas = [];
 
@@ -7,6 +8,7 @@ export class PhotographerFactory {
         await this.fetchPhotographersData();
     }
 
+    // Récupération des données depuis le .json
     async fetchPhotographersData() {
         let response = await fetch('data/photographers.json');
         
@@ -19,6 +21,7 @@ export class PhotographerFactory {
         this.photographersDatas = data.photographers;
     }
 
+    // Affichage du DOM
     displayData(section) {
         this.photographersDatas.forEach(photographer => {
             const photographerModel = this.photographerTemplate(photographer);
@@ -27,6 +30,7 @@ export class PhotographerFactory {
         });
     }
 
+    // Création du DOM
     photographerTemplate(data) {
         const { name, id, city, country, tagline, price, portrait} = data;
     
@@ -39,14 +43,13 @@ export class PhotographerFactory {
     
             const divClick = document.createElement('a');
             divClick.classList.add('divClick');
-            divClick.setAttribute("role", "link")
-            divClick.addEventListener("click", () => {
-                location.href = `/photographer.html?id=${id}`;
-            })
+            divClick.setAttribute("role", "link");
+            divClick.setAttribute("href",`/photographer.html?id=${id}`)
+            divClick.setAttribute("aria-label", `Profil de ${name}`)
     
             const img = document.createElement('img');
             img.setAttribute('src', picture);
-            img.setAttribute("alt", name)
+            img.setAttribute("alt", name);
     
             divClick.appendChild(img);
     
@@ -56,8 +59,10 @@ export class PhotographerFactory {
             divClick.appendChild(h2);
     
             const infoDiv = document.createElement('div');
-            infoDiv.innerHTML = `<h3>${city}, ${country}</h3><br>
-            <p><span>${tagline}<span><br><i>${price}€/jour</i></p>`;
+            infoDiv.classList.add("photographerCardInfos");
+            infoDiv.setAttribute("aria-label", "Informations du photographe");
+            infoDiv.innerHTML = `<h3 aria-label="Ville et pays du photographe">${city}, ${country}</h3>
+            <p aria-label="Réplique et prix journalier du photographe">${tagline}<br><em>${price}€/jour</em></p>`;
     
             article.appendChild(divClick);
             
