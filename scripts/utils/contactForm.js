@@ -38,7 +38,6 @@ function tabindexRemoveContactModal() {
     videosToClean = Array.from(videos);
 }
 
-
 // Ouverture de la modale
 function displayModal() {
     document.addEventListener("keydown", escModal);

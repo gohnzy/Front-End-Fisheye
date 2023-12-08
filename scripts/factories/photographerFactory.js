@@ -61,7 +61,7 @@ export class PhotographerFactory {
             const infoDiv = document.createElement('div');
             infoDiv.classList.add("photographerCardInfos");
             infoDiv.setAttribute("aria-label", "Informations du photographe");
-            infoDiv.innerHTML = `<h3 aria-label="Ville et pays du photographe">${city}, ${country}</h3>
+            infoDiv.innerHTML = `<h3 aria-label="${city} ${country}">${city}, ${country}</h3>
             <p aria-label="Réplique et prix journalier du photographe">${tagline}<br><em>${price}€/jour</em></p>`;
     
             article.appendChild(divClick);

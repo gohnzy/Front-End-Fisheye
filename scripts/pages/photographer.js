@@ -111,7 +111,7 @@ async function init() {
 
     mediaFactory.mediasDatas.forEach(m => {
         document.getElementById(m.id).addEventListener('keypress', (event) => {
-            if (event.keyCode === 13) {
+            if (event.key === 13) {
                 document.getElementById(m.id).firstElementChild.click();
             }
         });
